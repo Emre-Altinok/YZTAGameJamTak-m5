@@ -225,7 +225,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -354,7 +354,25 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   m_TileSpriteArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 0
@@ -362,32 +380,32 @@ Tilemap:
   m_TileMatrixArray:
   - m_RefCount: 0
     m_Data:
-      e00: -5.200703e+22
+      e00: 1.1601273e+19
       e01: 0
-      e02: 1.4452497e-22
-      e03: 1.0285598e-38
-      e10: 4.5907e-41
+      e02: 2.4106357e-26
+      e03: 2.3768479e+29
+      e10: 3e-45
       e11: 0
-      e12: 3.5e-44
-      e13: 5.75e-43
-      e20: -1.4433223e+23
+      e12: 7.7e-44
+      e13: 7e-43
+      e20: 0.00004494388
       e21: 0
-      e22: -32641760
-      e23: -4.0836108e-19
-      e30: 4.5907e-41
+      e22: 8.658698e+9
+      e23: -0.0000000041802686
+      e30: 4.5915e-41
       e31: 0
-      e32: 5.75e-43
-      e33: 5.75e-43
+      e32: 7.03e-43
+      e33: 7e-43
   m_TileColorArray:
   - m_RefCount: 0
     m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
   - m_RefCount: 0
-    m_Data: {r: 2.35e-43, g: 2.35e-43, b: 2.35e-43, a: 2.35e-43}
+    m_Data: {r: -2.2264652e-20, g: -2.2264652e-20, b: -2.2264652e-20, a: -2.2264652e-20}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Origin: {x: -6, y: -2, z: 0}
-  m_Size: {x: 8, y: 4, z: 1}
+  m_Origin: {x: -10, y: -9, z: 0}
+  m_Size: {x: 23, y: 11, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
