@@ -131,9 +131,9 @@ TextureImporter:
       name: anim_light1_0
       rect:
         serializedVersion: 2
-        x: 15
+        x: 16
         y: 0
-        width: 18
+        width: 16
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -141,9 +141,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9884de3a91b7183a0800000000000000
+      spriteID: ff2e0c44891abf840bda75247baec587
       internalID: -6664910623476987767
       vertices: []
       indices: 
@@ -153,9 +153,9 @@ TextureImporter:
       name: anim_light1_1
       rect:
         serializedVersion: 2
-        x: 62
+        x: 63
         y: 0
-        width: 18
+        width: 16
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -163,9 +163,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6efb8082411cb1d30800000000000000
+      spriteID: 330ee63cbcc0b8e4b984dde722effd24
       internalID: 4403325352999960550
       vertices: []
       indices: 
@@ -175,9 +175,9 @@ TextureImporter:
       name: anim_light1_2
       rect:
         serializedVersion: 2
-        x: 109
+        x: 110
         y: 0
-        width: 18
+        width: 16
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -185,9 +185,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 05b252fd0c51218c0800000000000000
+      spriteID: 2880ebfd86a842b48bca0795fe8c2b1a
       internalID: -4030134798421513392
       vertices: []
       indices: 
@@ -197,9 +197,9 @@ TextureImporter:
       name: anim_light1_3
       rect:
         serializedVersion: 2
-        x: 159
+        x: 160
         y: 0
-        width: 18
+        width: 16
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -207,9 +207,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 614ed536586060740800000000000000
+      spriteID: c56ab0e726487a349bdf5e43f4e5c72c
       internalID: 5117785196520662038
       vertices: []
       indices: 
@@ -219,9 +219,9 @@ TextureImporter:
       name: anim_light1_4
       rect:
         serializedVersion: 2
-        x: 208
+        x: 209
         y: 0
-        width: 18
+        width: 16
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -229,9 +229,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a21e9d576ec53ea70800000000000000
+      spriteID: a42003b324a068547ab97eaf340b4797
       internalID: 8855023437229973802
       vertices: []
       indices: 
@@ -241,9 +241,9 @@ TextureImporter:
       name: anim_light1_5
       rect:
         serializedVersion: 2
-        x: 257
+        x: 258
         y: 0
-        width: 18
+        width: 16
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -251,9 +251,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 25491c2abc458a5a0800000000000000
+      spriteID: 24c5dcf57a87cb04fa57f3c39e0c8fe2
       internalID: -6509860027778362286
       vertices: []
       indices: 
@@ -263,7 +263,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 38da37796175f4544a25be138fca942c
     internalID: 0
     vertices: []
     indices: 
@@ -271,7 +271,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       anim_light1_0: -6664910623476987767
       anim_light1_1: 4403325352999960550
