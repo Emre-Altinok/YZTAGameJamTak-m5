@@ -5,16 +5,24 @@ public class GoldManager : MonoBehaviour
 {
     public GameObject goldPrefab; // Altýnýn prefabý
     public Transform[] spawnPoints; // Altýnýn belireceði noktalar
-    public float goldLifetime = 5f; // Altýnýn ekranda kalma süresi
-    public float respawnTime = 10f; // Altýnýn tekrar gelme süresi
+    public float goldLifetime = 30f; // Altýnýn ekranda kalma süresi
+    public KeyCode spawnKey = KeyCode.E; // Altýnlarý çaðýrmak için kullanýlacak tuþ
 
-    void Start()
+    private bool isGoldActive = false; // Altýnlarýn aktif olup olmadýðýný kontrol eder
+    private bool isPlayerInTrigger = false; // Oyuncunun trigger içinde olup olmadýðýný kontrol eder
+
+    void Update()
     {
-        StartCoroutine(SpawnGoldRoutine());
+        // Belirtilen tuþa basýldýðýnda ve oyuncu trigger içindeyse altýnlarý spawn et
+        if (Input.GetKeyDown(spawnKey) && !isGoldActive && isPlayerInTrigger)
+        {
+            SpawnGold();
+        }
     }
 
     public void SpawnGold()
     {
+        isGoldActive = true; // Altýnlarýn aktif olduðunu iþaretle
         Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
         GameObject gold = Instantiate(goldPrefab, spawnPoint.position, Quaternion.identity);
         StartCoroutine(RemoveGoldAfterTime(gold, goldLifetime));
@@ -24,21 +32,26 @@ public class GoldManager : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         Destroy(gold);
-        StartCoroutine(RespawnGold(respawnTime));
+        isGoldActive = false; // Altýnlarýn artýk aktif olmadýðýný iþaretle
     }
 
-    IEnumerator SpawnGoldRoutine()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        while (true)
+        // Oyuncu trigger alanýna girdiðinde
+        if (collision.CompareTag("Player"))
         {
-            yield return new WaitForSeconds(respawnTime);
-            SpawnGold();
+            isPlayerInTrigger = true;
+            Debug.Log("Player entered the gold spawn area.");
         }
     }
 
-    IEnumerator RespawnGold(float time)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        yield return new WaitForSeconds(time);
-        SpawnGold();
+        // Oyuncu trigger alanýndan çýktýðýnda
+        if (collision.CompareTag("Player"))
+        {
+            isPlayerInTrigger = false;
+            Debug.Log("Player exited the gold spawn area.");
+        }
     }
 }
