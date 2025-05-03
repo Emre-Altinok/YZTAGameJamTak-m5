@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,10 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    // Bileþen referanslarý
+    // Bileï¿½en referanslarï¿½
     private Animator animator;
     private Rigidbody2D rb;
-    private SwordHitbox swordHitbox;
 
     // Hareket parametreleri
     [Header("Movement Settings")]
@@ -20,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     // Input System
     [SerializeField] private InputActionAsset inputActions;
-    private InputAction moveAction, jumpAction, attackAction, deathAction, dashAction;
+    private InputAction moveAction, jumpAction, attackAction, deathAction;
 
     // Animasyon parametreleri sabitleri
     private const string ANIM_IS_GROUNDED = "isGrounded";
@@ -29,7 +27,6 @@ public class PlayerController : MonoBehaviour
     private const string ANIM_JUMP = "Jump";
     private const string ANIM_ATTACK = "Attack";
     private const string ANIM_HIT = "Hit";
-    private const string ANIM_DASH = "Dash";
 
     #region Unity Lifecycle Methods
 
@@ -43,35 +40,6 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         ResetAnimatorParameters();
-        swordHitbox = GetComponentInChildren<SwordHitbox>(); // SwordHitbox'ý bul
-        if (swordHitbox == null)
-        {
-            Debug.LogError("SwordHitbox component not found! Make sure it is a child of the Player.");
-        }
-
-    }
-
-
-    public void EnableSwordHitbox()
-    {
-
-        if (swordHitbox != null)
-        {
-            swordHitbox.EnableHitbox();
-            Debug.Log("Sword hitbox enabled");
-        }
-    }
-
-    public void DisableSwordHitbox()
-    {
-        Debug.Log("DISABLESWORDHITBOX");
-        if (swordHitbox == null) Debug.Log("Sword hitbox is null");
-        if (swordHitbox != null) Debug.Log("Sword hitbox is null");
-        if (swordHitbox != null)
-        {
-            swordHitbox.DisableHitbox();
-            Debug.Log("Sword hitbox disabled");
-        }
     }
 
     private void OnEnable()
@@ -80,9 +48,17 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnDisable()
+{
+    if (inputActions != null)
     {
         DisableInputActions();
     }
+    else
+    {
+        Debug.LogWarning("InputActions is null in OnDisable.");
+    }
+}
+
 
     private void Update()
     {
@@ -95,11 +71,15 @@ public class PlayerController : MonoBehaviour
 
     private void SetupInputActions()
     {
+        if (inputActions == null)
+    {
+        Debug.LogError("Input Actions asset is not assigned!");
+        return;
+    }
         moveAction = inputActions.FindAction("Move");
         jumpAction = inputActions.FindAction("Jump");
         attackAction = inputActions.FindAction("Attack");
         deathAction = inputActions.FindAction("Death");
-        dashAction = inputActions.FindAction("Dash");
     }
 
     private void EnableInputActions()
@@ -114,9 +94,6 @@ public class PlayerController : MonoBehaviour
 
         deathAction.Enable();
         deathAction.performed += OnDeath;
-
-        dashAction.Enable();
-        dashAction.performed += OnDash;
     }
 
     private void DisableInputActions()
@@ -131,33 +108,6 @@ public class PlayerController : MonoBehaviour
 
         deathAction.performed -= OnDeath;
         deathAction.Disable();
-
-        dashAction.performed -= OnDash;
-        dashAction.Disable();
-    }
-
-    private void OnDash(InputAction.CallbackContext context)
-    {
-        Debug.Log("Dash action triggered");
-        if (context.performed)
-        {
-            Dash();
-        }
-    }
-
-    private void Dash()
-    {
-        // Karakterin baktýðý yönü belirle
-        float dashDirection = transform.localScale.x > 0 ? 1 : -1;
-
-        // Dash kuvvetini uygula
-        rb.linearVelocity = Vector2.zero; // Mevcut hareketi sýfýrla
-        rb.AddForce(new Vector2(dashDirection * moveSpeed * 2f, 0), ForceMode2D.Impulse); // Dash kuvveti uygula
-
-        // Dash animasyonunu tetikle
-        animator.SetTrigger(ANIM_DASH);
-
-        Debug.Log("Dashing in direction: " + (dashDirection > 0 ? "Right" : "Left"));
     }
 
     private void OnJump(InputAction.CallbackContext context)
@@ -165,7 +115,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("OnJumping1");
         Debug.Log("isGrounded: " + isGrounded);
         Debug.Log("context.performed: " + context.performed);
-        // Sadece yerdeyse zýplayabilir
+        // Sadece yerdeyse zï¿½playabilir
         if (context.performed && isGrounded)
         {
             Jump();
@@ -208,7 +158,7 @@ public class PlayerController : MonoBehaviour
     {
         float horizontal = moveAction.ReadValue<Vector2>().x;
 
-        // Animatör parametresini güncelle
+        // Animatï¿½r parametresini gï¿½ncelle
         animator.SetFloat(ANIM_SPEED, Mathf.Abs(horizontal));
 
         // Karakteri hareket ettir
@@ -221,10 +171,10 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        // Zýplama iþlemini gerçekleþtir
-        isGrounded = false; // Zýpladýktan sonra yere deðmiyor olarak ayarla
+        // Zï¿½plama iï¿½lemini gerï¿½ekleï¿½tir
+        isGrounded = false; // Zï¿½pladï¿½ktan sonra yere deï¿½miyor olarak ayarla
         animator.SetTrigger(ANIM_JUMP);
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0); // Mevcut y hýzýný sýfýrla
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0); // Mevcut y hï¿½zï¿½nï¿½ sï¿½fï¿½rla
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         Debug.Log("Jumping");
     }
@@ -235,7 +185,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Zeminle temas kontrolü
+        // Zeminle temas kontrolï¿½
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             isGrounded = true;
@@ -245,7 +195,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        // Zeminden ayrýlma kontrolü
+        // Zeminden ayrï¿½lma kontrolï¿½
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             isGrounded = false;
