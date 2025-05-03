@@ -35,14 +35,22 @@ public class SwordHitbox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Sword hitbox collided with: " + other.name);
+        Debug.Log("OnTriggerEnter2D called in SwordHitbox.");
+        Debug.Log("Collided with: " + other.name);
+
         if (other.CompareTag("Enemy"))
         {
+            Debug.Log("Collided with an Enemy.");
             Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.TakeDamage(damage);
+                Vector2 knockbackDirection = (other.transform.position - transform.position).normalized;
+                enemy.TakeDamage(damage, knockbackDirection);
                 Debug.Log("Enemy hit by sword! Damage: " + damage);
+            }
+            else
+            {
+                Debug.LogError("Enemy component not found on collided object.");
             }
         }
     }

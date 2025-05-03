@@ -1,25 +1,22 @@
 fileFormatVersion: 2
-guid: 6efed70d32e19c841a62ee811f6a19bc
+guid: 8299705ac4372d442adecd3b6a7db2a9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8605479602969983287
-    second: Decorations (32x32)_0
+      213: -3236675104909177313
+    second: Attack3_0
   - first:
-      213: 4600129511770090565
-    second: Decorations (32x32)_1
+      213: -6048392498854522608
+    second: Attack3_1
   - first:
-      213: -399538571583186172
-    second: Decorations (32x32)_2
+      213: 4769638531270534136
+    second: Attack3_2
   - first:
-      213: 3406356269320503256
-    second: Decorations (32x32)_3
+      213: -4825729793490337222
+    second: Attack3_3
   - first:
-      213: -1075017349056126811
-    second: Decorations (32x32)_4
-  - first:
-      213: -8255700023269317997
-    second: Decorations (32x32)_5
+      213: 710405504474814621
+    second: Attack3_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -66,7 +63,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -89,8 +86,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
+    textureFormat: 4
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -128,13 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Decorations (32x32)_0
+      name: Attack3_0
       rect:
         serializedVersion: 2
-        x: 34
-        y: 70
-        width: 28
-        height: 91
+        x: 20
+        y: 48
+        width: 60
+        height: 41
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +140,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c6ca1715e1339880800000000000000
-      internalID: -8605479602969983287
+      spriteID: f1ec98604250513d0800000000000000
+      internalID: -3236675104909177313
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decorations (32x32)_1
+      name: Attack3_1
       rect:
         serializedVersion: 2
-        x: 63
-        y: 152
-        width: 130
-        height: 9
+        x: 164
+        y: 48
+        width: 51
+        height: 39
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,20 +162,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 54ce8dd1b61f6df30800000000000000
-      internalID: 4600129511770090565
+      spriteID: 01193ab611bcf0ca0800000000000000
+      internalID: -6048392498854522608
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decorations (32x32)_2
+      name: Attack3_2
       rect:
         serializedVersion: 2
-        x: 63
-        y: 112
-        width: 130
-        height: 17
+        x: 303
+        y: 48
+        width: 47
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +184,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 40b97b639cd847af0800000000000000
-      internalID: -399538571583186172
+      spriteID: 8f3656b39f8213240800000000000000
+      internalID: 4769638531270534136
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decorations (32x32)_3
+      name: Attack3_3
       rect:
         serializedVersion: 2
-        x: 34
-        y: 38
-        width: 28
-        height: 27
+        x: 434
+        y: 48
+        width: 105
+        height: 73
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -209,20 +206,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8dff543bafec54f20800000000000000
-      internalID: 3406356269320503256
+      spriteID: a324df41250970db0800000000000000
+      internalID: -4825729793490337222
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decorations (32x32)_4
+      name: Attack3_4
       rect:
         serializedVersion: 2
-        x: 72
-        y: 31
-        width: 57
-        height: 59
+        x: 599
+        y: 48
+        width: 52
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -231,30 +228,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5a0a02eaa65c411f0800000000000000
-      internalID: -1075017349056126811
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Decorations (32x32)_5
-      rect:
-        serializedVersion: 2
-        x: 136
-        y: 31
-        width: 57
-        height: 59
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 39229d4c19cdd6d80800000000000000
-      internalID: -8255700023269317997
+      spriteID: d9814bcda0edbd900800000000000000
+      internalID: 710405504474814621
       vertices: []
       indices: 
       edges: []
@@ -273,12 +248,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Decorations (32x32)_0: -8605479602969983287
-      Decorations (32x32)_1: 4600129511770090565
-      Decorations (32x32)_2: -399538571583186172
-      Decorations (32x32)_3: 3406356269320503256
-      Decorations (32x32)_4: -1075017349056126811
-      Decorations (32x32)_5: -8255700023269317997
+      Attack3_0: -3236675104909177313
+      Attack3_1: -6048392498854522608
+      Attack3_2: 4769638531270534136
+      Attack3_3: -4825729793490337222
+      Attack3_4: 710405504474814621
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

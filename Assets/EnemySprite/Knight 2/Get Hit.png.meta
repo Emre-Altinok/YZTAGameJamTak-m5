@@ -1,25 +1,16 @@
 fileFormatVersion: 2
-guid: 6efed70d32e19c841a62ee811f6a19bc
+guid: f15f14b3733d71641b7740d0955fb9a3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8605479602969983287
-    second: Decorations (32x32)_0
+      213: 4059951838069092975
+    second: Get Hit_0
   - first:
-      213: 4600129511770090565
-    second: Decorations (32x32)_1
+      213: 4205832349090345166
+    second: Get Hit_1
   - first:
-      213: -399538571583186172
-    second: Decorations (32x32)_2
-  - first:
-      213: 3406356269320503256
-    second: Decorations (32x32)_3
-  - first:
-      213: -1075017349056126811
-    second: Decorations (32x32)_4
-  - first:
-      213: -8255700023269317997
-    second: Decorations (32x32)_5
+      213: -5427525242102528555
+    second: Get Hit_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -66,7 +57,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -89,8 +80,8 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
+    textureFormat: 4
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -128,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Decorations (32x32)_0
+      name: Get Hit_0
       rect:
         serializedVersion: 2
-        x: 34
-        y: 70
-        width: 28
-        height: 91
+        x: 47
+        y: 48
+        width: 32
+        height: 34
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +134,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c6ca1715e1339880800000000000000
-      internalID: -8605479602969983287
+      spriteID: f627d49afa8d75830800000000000000
+      internalID: 4059951838069092975
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decorations (32x32)_1
+      name: Get Hit_1
       rect:
         serializedVersion: 2
-        x: 63
-        y: 152
-        width: 130
-        height: 9
+        x: 185
+        y: 48
+        width: 29
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 54ce8dd1b61f6df30800000000000000
-      internalID: 4600129511770090565
+      spriteID: ec07060fc3e1e5a30800000000000000
+      internalID: 4205832349090345166
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decorations (32x32)_2
+      name: Get Hit_2
       rect:
         serializedVersion: 2
-        x: 63
-        y: 112
-        width: 130
-        height: 17
+        x: 322
+        y: 48
+        width: 29
+        height: 38
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,74 +178,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 40b97b639cd847af0800000000000000
-      internalID: -399538571583186172
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Decorations (32x32)_3
-      rect:
-        serializedVersion: 2
-        x: 34
-        y: 38
-        width: 28
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8dff543bafec54f20800000000000000
-      internalID: 3406356269320503256
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Decorations (32x32)_4
-      rect:
-        serializedVersion: 2
-        x: 72
-        y: 31
-        width: 57
-        height: 59
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5a0a02eaa65c411f0800000000000000
-      internalID: -1075017349056126811
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Decorations (32x32)_5
-      rect:
-        serializedVersion: 2
-        x: 136
-        y: 31
-        width: 57
-        height: 59
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 39229d4c19cdd6d80800000000000000
-      internalID: -8255700023269317997
+      spriteID: 5d5430f6c8e8da4b0800000000000000
+      internalID: -5427525242102528555
       vertices: []
       indices: 
       edges: []
@@ -273,12 +198,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Decorations (32x32)_0: -8605479602969983287
-      Decorations (32x32)_1: 4600129511770090565
-      Decorations (32x32)_2: -399538571583186172
-      Decorations (32x32)_3: 3406356269320503256
-      Decorations (32x32)_4: -1075017349056126811
-      Decorations (32x32)_5: -8255700023269317997
+      Get Hit_0: 4059951838069092975
+      Get Hit_1: 4205832349090345166
+      Get Hit_2: -5427525242102528555
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

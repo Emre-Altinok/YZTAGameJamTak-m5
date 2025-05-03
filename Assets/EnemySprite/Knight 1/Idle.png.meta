@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: 6efed70d32e19c841a62ee811f6a19bc
+guid: 51af4d1e0826bcd44bb9943333b4b3e1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8605479602969983287
-    second: Decorations (32x32)_0
+      213: 4723107735738678597
+    second: Idle_0
   - first:
-      213: 4600129511770090565
-    second: Decorations (32x32)_1
+      213: -7385789195546760866
+    second: Idle_1
   - first:
-      213: -399538571583186172
-    second: Decorations (32x32)_2
+      213: 3234629978573100161
+    second: Idle_2
   - first:
-      213: 3406356269320503256
-    second: Decorations (32x32)_3
+      213: 6373048116405451881
+    second: Idle_3
   - first:
-      213: -1075017349056126811
-    second: Decorations (32x32)_4
+      213: 7264182050183361747
+    second: Idle_4
   - first:
-      213: -8255700023269317997
-    second: Decorations (32x32)_5
+      213: -2834552850196481573
+    second: Idle_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -128,13 +128,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Decorations (32x32)_0
+      name: Idle_0
       rect:
         serializedVersion: 2
-        x: 34
-        y: 70
-        width: 28
-        height: 91
+        x: 70
+        y: 11
+        width: 46
+        height: 83
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,20 +143,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c6ca1715e1339880800000000000000
-      internalID: -8605479602969983287
+      spriteID: 54d7a982679db8140800000000000000
+      internalID: 4723107735738678597
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decorations (32x32)_1
+      name: Idle_1
       rect:
         serializedVersion: 2
-        x: 63
-        y: 152
-        width: 130
-        height: 9
+        x: 253
+        y: 11
+        width: 46
+        height: 82
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,20 +165,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 54ce8dd1b61f6df30800000000000000
-      internalID: 4600129511770090565
+      spriteID: e596485bbd7608990800000000000000
+      internalID: -7385789195546760866
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decorations (32x32)_2
+      name: Idle_2
       rect:
         serializedVersion: 2
-        x: 63
-        y: 112
-        width: 130
-        height: 17
+        x: 437
+        y: 11
+        width: 46
+        height: 81
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +187,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 40b97b639cd847af0800000000000000
-      internalID: -399538571583186172
+      spriteID: 184dda4e3d6b3ec20800000000000000
+      internalID: 3234629978573100161
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decorations (32x32)_3
+      name: Idle_3
       rect:
         serializedVersion: 2
-        x: 34
-        y: 38
-        width: 28
-        height: 27
+        x: 622
+        y: 11
+        width: 46
+        height: 81
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -209,20 +209,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8dff543bafec54f20800000000000000
-      internalID: 3406356269320503256
+      spriteID: 96cb1dafe7d917850800000000000000
+      internalID: 6373048116405451881
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decorations (32x32)_4
+      name: Idle_4
       rect:
         serializedVersion: 2
-        x: 72
-        y: 31
-        width: 57
-        height: 59
+        x: 806
+        y: 11
+        width: 46
+        height: 82
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -231,20 +231,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5a0a02eaa65c411f0800000000000000
-      internalID: -1075017349056126811
+      spriteID: 3d4b2fc561f8fc460800000000000000
+      internalID: 7264182050183361747
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Decorations (32x32)_5
+      name: Idle_5
       rect:
         serializedVersion: 2
-        x: 136
-        y: 31
-        width: 57
-        height: 59
+        x: 990
+        y: 11
+        width: 46
+        height: 83
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -253,8 +253,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 39229d4c19cdd6d80800000000000000
-      internalID: -8255700023269317997
+      spriteID: bd9b7fa6335a9a8d0800000000000000
+      internalID: -2834552850196481573
       vertices: []
       indices: 
       edges: []
@@ -272,13 +272,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Decorations (32x32)_0: -8605479602969983287
-      Decorations (32x32)_1: 4600129511770090565
-      Decorations (32x32)_2: -399538571583186172
-      Decorations (32x32)_3: 3406356269320503256
-      Decorations (32x32)_4: -1075017349056126811
-      Decorations (32x32)_5: -8255700023269317997
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
