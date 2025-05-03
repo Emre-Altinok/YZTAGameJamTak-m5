@@ -55,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -69,7 +69,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -92,7 +92,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -121,10 +121,10 @@ TextureImporter:
       name: Mushroom-Idle-export_0
       rect:
         serializedVersion: 2
-        x: 24
+        x: 0
         y: 0
-        width: 32
-        height: 34
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,10 +143,10 @@ TextureImporter:
       name: Mushroom-Idle-export_1
       rect:
         serializedVersion: 2
-        x: 104
+        x: 80
         y: 0
-        width: 32
-        height: 33
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -165,10 +165,10 @@ TextureImporter:
       name: Mushroom-Idle-export_2
       rect:
         serializedVersion: 2
-        x: 184
+        x: 160
         y: 0
-        width: 32
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,10 +187,10 @@ TextureImporter:
       name: Mushroom-Idle-export_3
       rect:
         serializedVersion: 2
-        x: 264
+        x: 240
         y: 0
-        width: 32
-        height: 31
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -209,10 +209,10 @@ TextureImporter:
       name: Mushroom-Idle-export_4
       rect:
         serializedVersion: 2
-        x: 344
+        x: 320
         y: 0
-        width: 32
-        height: 31
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -231,10 +231,10 @@ TextureImporter:
       name: Mushroom-Idle-export_5
       rect:
         serializedVersion: 2
-        x: 424
+        x: 400
         y: 0
-        width: 32
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -253,10 +253,10 @@ TextureImporter:
       name: Mushroom-Idle-export_6
       rect:
         serializedVersion: 2
-        x: 504
+        x: 480
         y: 0
-        width: 32
-        height: 33
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -275,7 +275,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 4781328d25e4f8f43b7961b5e4f8966b
     internalID: 0
     vertices: []
     indices: 
@@ -283,8 +283,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":7.0,"y":1.0},"gridSpriteSize":{"x":80.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Mushroom-Idle-export_0: -249844946820123688
+      Mushroom-Idle-export_1: -822355490575255506
+      Mushroom-Idle-export_2: 7450868737862755089
+      Mushroom-Idle-export_3: -6554751364642131356
+      Mushroom-Idle-export_4: -3728576350339332095
+      Mushroom-Idle-export_5: 258840924875095790
+      Mushroom-Idle-export_6: 4293821736536745459
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

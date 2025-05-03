@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -95,7 +95,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -124,10 +124,10 @@ TextureImporter:
       name: Mushroom-Run-export_0
       rect:
         serializedVersion: 2
-        x: 23
+        x: 0
         y: 0
-        width: 32
-        height: 35
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,10 +146,10 @@ TextureImporter:
       name: Mushroom-Run-export_1
       rect:
         serializedVersion: 2
-        x: 103
+        x: 80
         y: 0
-        width: 32
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,10 +168,10 @@ TextureImporter:
       name: Mushroom-Run-export_2
       rect:
         serializedVersion: 2
-        x: 183
+        x: 160
         y: 0
-        width: 32
-        height: 34
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,10 +190,10 @@ TextureImporter:
       name: Mushroom-Run-export_3
       rect:
         serializedVersion: 2
-        x: 263
-        y: 2
-        width: 32
-        height: 34
+        x: 240
+        y: 0
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -212,10 +212,10 @@ TextureImporter:
       name: Mushroom-Run-export_4
       rect:
         serializedVersion: 2
-        x: 343
+        x: 320
         y: 0
-        width: 32
-        height: 35
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,10 +234,10 @@ TextureImporter:
       name: Mushroom-Run-export_5
       rect:
         serializedVersion: 2
-        x: 423
+        x: 400
         y: 0
-        width: 32
-        height: 32
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,10 +256,10 @@ TextureImporter:
       name: Mushroom-Run-export_6
       rect:
         serializedVersion: 2
-        x: 503
+        x: 480
         y: 0
-        width: 32
-        height: 34
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -278,10 +278,10 @@ TextureImporter:
       name: Mushroom-Run-export_7
       rect:
         serializedVersion: 2
-        x: 583
-        y: 2
-        width: 32
-        height: 34
+        x: 560
+        y: 0
+        width: 80
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -300,7 +300,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1ef087b90d3cd9b4380ca3c13ac91951
     internalID: 0
     vertices: []
     indices: 
@@ -308,8 +308,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
-    nameFileIdTable: {}
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":8.0,"y":1.0},"gridSpriteSize":{"x":80.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Mushroom-Run-export_0: -1871501262845758618
+      Mushroom-Run-export_1: -6900571505706358663
+      Mushroom-Run-export_2: -9059215388430589156
+      Mushroom-Run-export_3: -6757738987157980725
+      Mushroom-Run-export_4: -8847035234510672757
+      Mushroom-Run-export_5: 2227496742820871406
+      Mushroom-Run-export_6: -2385006203511704007
+      Mushroom-Run-export_7: -456310838823360344
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
