@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     private bool isFollowing = false; // Takip durumu
     private Animator animator; // Canavar animatörü
     private Rigidbody2D rb; // Canavarýn Rigidbody2D bileþeni
+
     void Start()
     {
         if (player == null)
@@ -24,12 +25,11 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>(); // Animator referansýný al
         rb = GetComponent<Rigidbody2D>(); // Rigidbody2D referansýný al
     }
+
     void Update()
     {
-        // Canavar ile oyuncu arasýndaki mesafeyi hesapla
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        // Oyuncuya yaklaþma durumu
         if (distanceToPlayer < followDistance)
         {
             isFollowing = true;
@@ -39,50 +39,41 @@ public class Enemy : MonoBehaviour
             isFollowing = false;
         }
 
-        // Takip etme ve saldýrma iþlemleri
         if (isFollowing)
         {
-            FollowPlayer(); // Oyuncuyu takip et
+            FollowPlayer();
         }
 
-        // Oyuncuya saldýrma
         if (distanceToPlayer <= attackDistance && Time.time > lastAttackTime + attackCooldown)
         {
-            AttackPlayer(); // Oyuncuya saldýr
+            AttackPlayer();
         }
     }
-        // Oyuncuyu takip etme fonksiyonu
-        void FollowPlayer()
+
+    void FollowPlayer()
+    {
+        Vector2 direction = (player.position - transform.position).normalized;
+        transform.Translate(direction * moveSpeed * Time.deltaTime);
+    }
+
+    void AttackPlayer()
+    {
+        lastAttackTime = Time.time;
+
+        PlayerHP playerHP = player.GetComponent<PlayerHP>();
+        if (playerHP != null)
         {
-            // Oyuncuya doðru yönel
-            Vector2 direction = (player.position - transform.position).normalized;
-
-            // Canavarý oyuncuya doðru hareket ettir
-            transform.Translate(direction * moveSpeed * Time.deltaTime);
+            Vector2 knockbackDirection = new Vector2(player.position.x - transform.position.x, 0).normalized;
+            playerHP.TakeDamage(attackDamage, knockbackDirection);
+            Debug.Log("Enemy attacked the player! Damage: " + attackDamage);
         }
-
-        // Oyuncuya saldýrma fonksiyonu
-        void AttackPlayer()
-        {
-            lastAttackTime = Time.time; // Son saldýrý zamanýný güncelle
-
-            // Oyuncuya hasar ver
-            PlayerHP playerHP = player.GetComponent<PlayerHP>(); // PlayerHP script’ini al
-            if (playerHP != null)
-            {
-                Vector2 knockbackDirection = new Vector2(player.position.x - transform.position.x, 0).normalized;
-                playerHP.TakeDamage(attackDamage, knockbackDirection); // Oyuncuya hasar ver ve knockback uygula
-            }
-
-            // Saldýrý animasyonunu tetikle
-            animator.SetTrigger("Attack");
-            Debug.Log("Canavar oyuncuya saldýrdý!");
-        }
+    }
 
     public void TakeDamage(int damage)
     {
-        // Handle taking damage here
-        Debug.Log("Enemy took " + damage + " damage!");
+        health -= damage;
+        Debug.Log("Enemy took " + damage + " damage! Remaining health: " + health);
+
         if (health <= 0)
         {
             Die();
@@ -91,7 +82,21 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        // Ölüm animasyonu veya yok etme
+        Debug.Log("Enemy is dead!");
         Destroy(gameObject);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerHP playerHP = collision.gameObject.GetComponent<PlayerHP>();
+            if (playerHP != null)
+            {
+                Vector2 knockbackDirection = new Vector2(collision.transform.position.x - transform.position.x, 0).normalized;
+                playerHP.TakeDamage(attackDamage, knockbackDirection);
+                Debug.Log("Enemy collided with the player! Damage: " + attackDamage);
+            }
+        }
     }
 }
