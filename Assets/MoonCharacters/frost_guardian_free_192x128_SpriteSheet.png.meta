@@ -327,6 +327,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -2059,7 +2072,85 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      frost_guardian_free_192x128_SpriteSheet_0: -4694188267507165518
+      frost_guardian_free_192x128_SpriteSheet_1: -5710402452380377869
+      frost_guardian_free_192x128_SpriteSheet_10: 5841791919597977884
+      frost_guardian_free_192x128_SpriteSheet_11: -3207394744603452534
+      frost_guardian_free_192x128_SpriteSheet_12: -2551485626044795093
+      frost_guardian_free_192x128_SpriteSheet_13: 5480612616328059603
+      frost_guardian_free_192x128_SpriteSheet_14: -8901508643320800326
+      frost_guardian_free_192x128_SpriteSheet_15: 8550313861217106173
+      frost_guardian_free_192x128_SpriteSheet_16: -7539730362586357630
+      frost_guardian_free_192x128_SpriteSheet_17: -1028610685020858983
+      frost_guardian_free_192x128_SpriteSheet_18: 6778845732738042153
+      frost_guardian_free_192x128_SpriteSheet_19: -2114060576957980579
+      frost_guardian_free_192x128_SpriteSheet_2: -7848959536584409431
+      frost_guardian_free_192x128_SpriteSheet_20: -3418566530452919811
+      frost_guardian_free_192x128_SpriteSheet_21: 354457637222007697
+      frost_guardian_free_192x128_SpriteSheet_22: 7595805996264786903
+      frost_guardian_free_192x128_SpriteSheet_23: 2979691210695384133
+      frost_guardian_free_192x128_SpriteSheet_24: 2855454636254054914
+      frost_guardian_free_192x128_SpriteSheet_25: 8799840290228139484
+      frost_guardian_free_192x128_SpriteSheet_26: -5765515803809247949
+      frost_guardian_free_192x128_SpriteSheet_27: -582897328468270294
+      frost_guardian_free_192x128_SpriteSheet_28: 7412715860897489686
+      frost_guardian_free_192x128_SpriteSheet_29: 1084569986940800592
+      frost_guardian_free_192x128_SpriteSheet_3: -5037796730225099090
+      frost_guardian_free_192x128_SpriteSheet_30: 2079514425809356816
+      frost_guardian_free_192x128_SpriteSheet_31: 1965880409356499581
+      frost_guardian_free_192x128_SpriteSheet_32: 5295042332833684810
+      frost_guardian_free_192x128_SpriteSheet_33: -447808827293025121
+      frost_guardian_free_192x128_SpriteSheet_34: -2112458459443847811
+      frost_guardian_free_192x128_SpriteSheet_35: -8037833400233299737
+      frost_guardian_free_192x128_SpriteSheet_36: 6393229772710641404
+      frost_guardian_free_192x128_SpriteSheet_37: -5933470708394465690
+      frost_guardian_free_192x128_SpriteSheet_38: 2245926628811099807
+      frost_guardian_free_192x128_SpriteSheet_39: 8150212271735157922
+      frost_guardian_free_192x128_SpriteSheet_4: 2509581317757362441
+      frost_guardian_free_192x128_SpriteSheet_40: 4222727276369690985
+      frost_guardian_free_192x128_SpriteSheet_41: 6956822976336641322
+      frost_guardian_free_192x128_SpriteSheet_42: 1112058297951175435
+      frost_guardian_free_192x128_SpriteSheet_43: 2672658179267066044
+      frost_guardian_free_192x128_SpriteSheet_44: -645047684500888886
+      frost_guardian_free_192x128_SpriteSheet_45: 3868833241862434658
+      frost_guardian_free_192x128_SpriteSheet_46: 6067392209185786807
+      frost_guardian_free_192x128_SpriteSheet_47: 2645566816760705556
+      frost_guardian_free_192x128_SpriteSheet_48: -5142031034034105274
+      frost_guardian_free_192x128_SpriteSheet_49: 8576303206562234897
+      frost_guardian_free_192x128_SpriteSheet_5: -2978803075498449355
+      frost_guardian_free_192x128_SpriteSheet_50: -4774435501712029937
+      frost_guardian_free_192x128_SpriteSheet_51: 4754295031093934094
+      frost_guardian_free_192x128_SpriteSheet_52: -5851191712929291855
+      frost_guardian_free_192x128_SpriteSheet_53: 262944675945270089
+      frost_guardian_free_192x128_SpriteSheet_54: -3022767824194546486
+      frost_guardian_free_192x128_SpriteSheet_55: 8890586042191025603
+      frost_guardian_free_192x128_SpriteSheet_56: 6106588190613850385
+      frost_guardian_free_192x128_SpriteSheet_57: -5246593967234709911
+      frost_guardian_free_192x128_SpriteSheet_58: -7680216744861387077
+      frost_guardian_free_192x128_SpriteSheet_59: 4682349291884600312
+      frost_guardian_free_192x128_SpriteSheet_6: -6996809785924896576
+      frost_guardian_free_192x128_SpriteSheet_60: -7321185190798970745
+      frost_guardian_free_192x128_SpriteSheet_61: -3468250337658571761
+      frost_guardian_free_192x128_SpriteSheet_62: -2932180880853767405
+      frost_guardian_free_192x128_SpriteSheet_63: 4823270426597533469
+      frost_guardian_free_192x128_SpriteSheet_64: 5690608046824411167
+      frost_guardian_free_192x128_SpriteSheet_65: -6109963995409414260
+      frost_guardian_free_192x128_SpriteSheet_66: -2188904117231834788
+      frost_guardian_free_192x128_SpriteSheet_67: -7303366755393712630
+      frost_guardian_free_192x128_SpriteSheet_68: 3052431752560515350
+      frost_guardian_free_192x128_SpriteSheet_69: 4847373216820558412
+      frost_guardian_free_192x128_SpriteSheet_7: -2455270792778053642
+      frost_guardian_free_192x128_SpriteSheet_70: -240708303467654121
+      frost_guardian_free_192x128_SpriteSheet_71: -1359790282667517312
+      frost_guardian_free_192x128_SpriteSheet_72: -826722764151312480
+      frost_guardian_free_192x128_SpriteSheet_73: 9059639290013962605
+      frost_guardian_free_192x128_SpriteSheet_74: 6650242227080598292
+      frost_guardian_free_192x128_SpriteSheet_75: -7904726525817054019
+      frost_guardian_free_192x128_SpriteSheet_76: -4357231658333967892
+      frost_guardian_free_192x128_SpriteSheet_77: -1409642700583670828
+      frost_guardian_free_192x128_SpriteSheet_8: -2790882537064946412
+      frost_guardian_free_192x128_SpriteSheet_9: 216515323381710245
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

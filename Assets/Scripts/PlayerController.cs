@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     // Bileþen referanslarý
     private Animator animator;
     private Rigidbody2D rb;
+    private SwordHitbox swordHitbox;
 
     // Hareket parametreleri
     [Header("Movement Settings")]
@@ -40,6 +41,35 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         ResetAnimatorParameters();
+        swordHitbox = GetComponentInChildren<SwordHitbox>(); // SwordHitbox'ý bul
+        if (swordHitbox == null)
+        {
+            Debug.LogError("SwordHitbox component not found! Make sure it is a child of the Player.");
+        }
+
+    }
+
+
+    public void EnableSwordHitbox()
+    {
+
+        if (swordHitbox != null)
+        {
+            swordHitbox.EnableHitbox();
+            Debug.Log("Sword hitbox enabled");
+        }
+    }
+
+    public void DisableSwordHitbox()
+    {
+        Debug.Log("DISABLESWORDHITBOX");
+        if (swordHitbox == null) Debug.Log("Sword hitbox is null");
+        if (swordHitbox != null) Debug.Log("Sword hitbox is null");
+        if (swordHitbox != null)
+        {
+            swordHitbox.DisableHitbox();
+            Debug.Log("Sword hitbox disabled");
+        }
     }
 
     private void OnEnable()
