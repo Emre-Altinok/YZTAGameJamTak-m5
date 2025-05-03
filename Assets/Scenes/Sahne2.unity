@@ -2817,6 +2817,7 @@ GameObject:
   - component: {fileID: 470104819}
   - component: {fileID: 470104821}
   - component: {fileID: 470104820}
+  - component: {fileID: 470104822}
   m_Layer: 0
   m_Name: backbackbackback
   m_TagString: Untagged
@@ -10431,6 +10432,28 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!95 &470104822
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470104818}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0c82aa0d3bc8ddb4fa46e77ed82be347, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &488559489
 GameObject:
   m_ObjectHideFlags: 0
