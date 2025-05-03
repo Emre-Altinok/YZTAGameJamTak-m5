@@ -138,13 +138,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnDash(InputAction.CallbackContext context)
     {
+        Debug.Log("Dash action triggered");
         if (context.performed)
         {
-            Debug.Log("OnDashing1");
             Dash();
-            Debug.Log("OnDashing2");
         }
-        Debug.Log("OnDashing");
     }
 
     private void Dash()
