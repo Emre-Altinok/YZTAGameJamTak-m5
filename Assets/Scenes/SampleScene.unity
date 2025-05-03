@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 335613426}
   - component: {fileID: 335613425}
   - component: {fileID: 335613424}
+  - component: {fileID: 335613428}
   m_Layer: 0
   m_Name: Triangle
   m_TagString: Enemy
@@ -238,7 +239,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 335613423}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09aefc1dabe62f446a5f94d4c4ba3507, type: 3}
   m_Name: 
@@ -356,12 +357,31 @@ Transform:
   m_GameObject: {fileID: 335613423}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -64.76, y: -11.42, z: 0}
+  m_LocalPosition: {x: -70.15, y: -21.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &335613428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335613423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b62a58c9f68eca41a63060c6ac6c077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 10
+  player: {fileID: 380449974}
+  moveSpeed: 3
+  followDistance: 5
+  attackDistance: 1.5
+  attackDamage: 1
+  attackCooldown: 1
 --- !u!1 &347224990
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +20,7 @@ public class PlayerController : MonoBehaviour
 
     // Input System
     [SerializeField] private InputActionAsset inputActions;
-    private InputAction moveAction, jumpAction, attackAction, deathAction;
+    private InputAction moveAction, jumpAction, attackAction, deathAction, dashAction;
 
     // Animasyon parametreleri sabitleri
     private const string ANIM_IS_GROUNDED = "isGrounded";
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private const string ANIM_JUMP = "Jump";
     private const string ANIM_ATTACK = "Attack";
     private const string ANIM_HIT = "Hit";
+    private const string ANIM_DASH = "Dash";
 
     #region Unity Lifecycle Methods
 
@@ -97,6 +99,7 @@ public class PlayerController : MonoBehaviour
         jumpAction = inputActions.FindAction("Jump");
         attackAction = inputActions.FindAction("Attack");
         deathAction = inputActions.FindAction("Death");
+        dashAction = inputActions.FindAction("Dash");
     }
 
     private void EnableInputActions()
@@ -111,6 +114,9 @@ public class PlayerController : MonoBehaviour
 
         deathAction.Enable();
         deathAction.performed += OnDeath;
+
+        dashAction.Enable();
+        dashAction.performed += OnDash;
     }
 
     private void DisableInputActions()
@@ -125,6 +131,35 @@ public class PlayerController : MonoBehaviour
 
         deathAction.performed -= OnDeath;
         deathAction.Disable();
+
+        dashAction.performed -= OnDash;
+        dashAction.Disable();
+    }
+
+    private void OnDash(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Debug.Log("OnDashing1");
+            Dash();
+            Debug.Log("OnDashing2");
+        }
+        Debug.Log("OnDashing");
+    }
+
+    private void Dash()
+    {
+        // Karakterin baktýðý yönü belirle
+        float dashDirection = transform.localScale.x > 0 ? 1 : -1;
+
+        // Dash kuvvetini uygula
+        rb.linearVelocity = Vector2.zero; // Mevcut hareketi sýfýrla
+        rb.AddForce(new Vector2(dashDirection * moveSpeed * 2f, 0), ForceMode2D.Impulse); // Dash kuvveti uygula
+
+        // Dash animasyonunu tetikle
+        animator.SetTrigger(ANIM_DASH);
+
+        Debug.Log("Dashing in direction: " + (dashDirection > 0 ? "Right" : "Left"));
     }
 
     private void OnJump(InputAction.CallbackContext context)
