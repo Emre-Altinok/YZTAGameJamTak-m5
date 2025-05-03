@@ -4,20 +4,31 @@ public class Gold : MonoBehaviour
 {
     public ScoreManager scoreManager; // ScoreManager referansı
     public float goldValue = 10f;     // Altının verdiği değer
-    public GameObject goldPickupEffect; // Altın alındığında oynatılacak görsel efekt
 
-    private void OnTriggerEnter(Collider other)
+    private void Start()
     {
+        // Eğer ScoreManager referansı atanmadıysa, sahnede arama yap
+        if (scoreManager == null)
+        {
+            scoreManager = FindAnyObjectByType<ScoreManager>();
+            if (scoreManager == null)
+            {
+                Debug.LogError("ScoreManager bulunamadı! Lütfen sahnede bir ScoreManager olduğundan emin olun.");
+            }
+        }
+    }
+
+    // 2D oyunlar için doğru metod
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("TRIGGERA GİRDİK");
         // Eğer çarpışan obje "Player" tag'ine sahipse
         if (other.CompareTag("Player"))
         {
             // Skoru artır
-            scoreManager.ScoreAdd(goldValue);
-
-            // Altın alındığında bir efekt oluştur
-            if (goldPickupEffect != null)
+            if (scoreManager != null)
             {
-                Instantiate(goldPickupEffect, transform.position, Quaternion.identity); // Efekt başlat
+                scoreManager.ScoreAdd(goldValue);
             }
 
             // Altın objesini yok et
