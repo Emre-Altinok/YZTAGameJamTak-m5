@@ -138,6 +138,7 @@ public class Enemy : MonoBehaviour
             yield return null;
         }
 
+
         // Animatörü devre dýþý býrak  
         animator.enabled = false;
 
