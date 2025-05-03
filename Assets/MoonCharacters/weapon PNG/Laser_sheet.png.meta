@@ -198,6 +198,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -984,7 +997,42 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Laser_sheet_0: -5341597898538695221
+      Laser_sheet_1: -8978408729274254430
+      Laser_sheet_10: -6701801219439810234
+      Laser_sheet_11: 7473293220430665474
+      Laser_sheet_12: -1336750148893057986
+      Laser_sheet_13: -1950424157889047715
+      Laser_sheet_14: 4238861351130170196
+      Laser_sheet_15: -6911181621799430481
+      Laser_sheet_16: 5003634226846182804
+      Laser_sheet_17: 2896512351283971568
+      Laser_sheet_18: 3134540479172978662
+      Laser_sheet_19: 7541565570370268797
+      Laser_sheet_2: 797768032434522389
+      Laser_sheet_20: 1561237600651558630
+      Laser_sheet_21: 6809442395095684782
+      Laser_sheet_22: -2683619221520823459
+      Laser_sheet_23: -8523935217686447671
+      Laser_sheet_24: -8266026193964414411
+      Laser_sheet_25: -8924404907818905018
+      Laser_sheet_26: 596613336412172416
+      Laser_sheet_27: 6935722184500306475
+      Laser_sheet_28: 7548045601679250679
+      Laser_sheet_29: 8242567290148564425
+      Laser_sheet_3: 7394835561953233644
+      Laser_sheet_30: -2896346578816126121
+      Laser_sheet_31: -5404797237292399070
+      Laser_sheet_32: -3450780355966905698
+      Laser_sheet_33: 9059945912988972295
+      Laser_sheet_34: 2291947357849232512
+      Laser_sheet_4: -4469117517395524942
+      Laser_sheet_5: -5041315827434484139
+      Laser_sheet_6: -274854406761784476
+      Laser_sheet_7: -1702599639152044942
+      Laser_sheet_8: -2656773159261285837
+      Laser_sheet_9: 4487909370968573847
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

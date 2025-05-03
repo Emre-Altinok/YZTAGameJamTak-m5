@@ -111,6 +111,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -259,7 +272,13 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      arm_projectile_glowing_0: 95044405116505353
+      arm_projectile_glowing_1: 5053551332890923903
+      arm_projectile_glowing_2: 959987844630726459
+      arm_projectile_glowing_3: 8066067344937695706
+      arm_projectile_glowing_4: 8081469474457304709
+      arm_projectile_glowing_5: -4212147560741854503
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

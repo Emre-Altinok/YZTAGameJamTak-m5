@@ -159,6 +159,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -8446,13 +8459,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
+<<<<<<< Updated upstream
       entries:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+=======
+      entries: []
+>>>>>>> Stashed changes
     nameFileIdTable:
       Terrain_and_Props_0: 7524805609583646632
       Terrain_and_Props_1: -778642162071068864
       Terrain_and_Props_10: 214759914939099798
+<<<<<<< Updated upstream
       Terrain_and_Props_100: 929669095
       Terrain_and_Props_101: 1537284180
       Terrain_and_Props_102: -433999264
@@ -8826,6 +8844,27 @@ TextureImporter:
       Terrain_and_Props_97: -859021369
       Terrain_and_Props_98: -1581673734
       Terrain_and_Props_99: -1299484676
+=======
+      Terrain_and_Props_11: -5588228214301328085
+      Terrain_and_Props_12: -3329337049672913973
+      Terrain_and_Props_13: -8625103688074738216
+      Terrain_and_Props_14: -4431551881186229920
+      Terrain_and_Props_15: 3264104559154692804
+      Terrain_and_Props_16: -5088739765837812855
+      Terrain_and_Props_17: -5574540892594649770
+      Terrain_and_Props_18: 6360217670390750199
+      Terrain_and_Props_19: -1291047660000004122
+      Terrain_and_Props_2: -6757766758911780738
+      Terrain_and_Props_20: -1032229608557952401
+      Terrain_and_Props_21: 6530679173019828921
+      Terrain_and_Props_3: 3068277905654777829
+      Terrain_and_Props_4: -7662601631111615731
+      Terrain_and_Props_5: 777567994236811104
+      Terrain_and_Props_6: 5192726240851050897
+      Terrain_and_Props_7: 6109166913223408358
+      Terrain_and_Props_8: -5857943447969817599
+      Terrain_and_Props_9: -2315371145126014235
+>>>>>>> Stashed changes
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
