@@ -4,6 +4,8 @@ public class Gold : MonoBehaviour
 {
     public ScoreManager scoreManager; // ScoreManager referansı
     public float goldValue = 10f;     // Altının verdiği değer
+    public AudioClip collectSound;   // Toplama sesi
+    private AudioSource audioSource; // Ses kaynağı
 
     private void Start()
     {
@@ -15,6 +17,13 @@ public class Gold : MonoBehaviour
             {
                 Debug.LogError("ScoreManager bulunamadı! Lütfen sahnede bir ScoreManager olduğundan emin olun.");
             }
+        }
+
+        // AudioSource bileşenini al veya ekle
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
         }
     }
 
@@ -31,8 +40,14 @@ public class Gold : MonoBehaviour
                 scoreManager.ScoreAdd(goldValue);
             }
 
+            // Ses çal
+            if (collectSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(collectSound);
+            }
+
             // Altın objesini yok et
-            Destroy(gameObject);
+            Destroy(gameObject, collectSound != null ? collectSound.length : 0f);
 
             // Debug log mesajı: Altın kayboldu
             Debug.Log("Altın kayboldu ve oyuncuya eklendi!");
