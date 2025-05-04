@@ -126,7 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   portalSound: {fileID: 8300000, guid: ce208e1e093fd22428a49f900aa3e486, type: 3}
   volume: 1
-  transitionDelay: 1
   targetTag: Player
   portalEffect: {fileID: 0}
 --- !u!61 &1544402027519215149

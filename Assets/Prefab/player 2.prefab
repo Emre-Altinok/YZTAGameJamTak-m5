@@ -231,7 +231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1915c60885db07e43bd42d0b15b25007, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
+  maxHealth: 6
   healthBarFill: {fileID: 0}
   knockbackForce: 0
 --- !u!114 &6225585075310486089
@@ -246,8 +246,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2895fba348b2eec4b9e442a4e8af4974, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 5
+  moveSpeed: 6
+  jumpForce: 8
+  walkingSound: {fileID: 8300000, guid: 225dc8926d4635944b63f9dfdc0e8c97, type: 3}
+  attackSound: {fileID: 8300000, guid: af22ae7b1840d2d409157f0275805c61, type: 3}
+  walkVolume: 0.1
+  attackVolume: 0.1
   bulletPrefab: {fileID: 6433635266458858138, guid: 09f47948db022a54f8adb1e710908a4d, type: 3}
   firePoint: {fileID: 2354896968755867392}
   fireRate: 1

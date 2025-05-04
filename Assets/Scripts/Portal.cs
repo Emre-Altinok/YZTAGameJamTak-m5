@@ -10,9 +10,6 @@ public class Portal : MonoBehaviour
     [Tooltip("Ses efektinin ses seviyesi")]
     [SerializeField] private float volume = 1f;
 
-    [Tooltip("Geçiþ efekti süresi (saniye)")]
-    [SerializeField] private float transitionDelay = 2f;
-
     [Tooltip("Hangi tag'e sahip objeler portal ile etkileþime girebilir")]
     [SerializeField] private string targetTag = "Player";
 

@@ -368,3 +368,7 @@ MonoBehaviour:
   laserObject: {fileID: 4340095512730766362}
   laserDuration: 1.5
   laserDamage: 1
+  laserSound: {fileID: 8300000, guid: c68cc114c0ee0da4dbc20fa6c1dac0ef, type: 3}
+  deathSound: {fileID: 8300000, guid: 17e619ec2f326934d85ae5286fd273e6, type: 3}
+  laserVolume: 0.1
+  deathVolume: 0.1

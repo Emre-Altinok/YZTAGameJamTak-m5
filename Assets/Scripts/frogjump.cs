@@ -11,6 +11,13 @@ public class frogjump : MonoBehaviour
     [Header("Animasyon Ayarları")]
     public float yonDegisimHizi = 10f; // Karakterin dönüş hızı
 
+    [Header("Ses Ayarları")]
+    [SerializeField] private AudioClip jumpSound; // Zıplama sesi
+    [Range(0f, 1f)]
+    [SerializeField] private float jumpVolume = 0.7f; // Zıplama ses seviyesi
+    [Tooltip("Ses seviyesi: 0 = sessiz, 1 = maksimum")]
+    private AudioSource audioSource; // Ses kaynağı
+
     [Header("Input Ayarları")]
     [SerializeField] private InputActionAsset inputActions; // Input Action Asset referansı
 
@@ -43,6 +50,17 @@ public class frogjump : MonoBehaviour
 
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        // AudioSource bileşenini al veya ekle
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // Ses ayarları
+        audioSource.playOnAwake = false;
+        audioSource.volume = jumpVolume;
 
         // Input Actions
         if (inputActions == null)
@@ -157,6 +175,31 @@ public class frogjump : MonoBehaviour
         {
             animator.SetBool(IsJumping, true);
             animator.SetBool(IsGrounded, false);
+        }
+
+        // Zıplama sesini çal
+        PlayJumpSound();
+    }
+
+    // Zıplama sesini çalma metodu
+    private void PlayJumpSound()
+    {
+        if (jumpSound != null && audioSource != null)
+        {
+            // Ses seviyesini ayarla
+            audioSource.volume = jumpVolume;
+            // Sesi çal
+            audioSource.PlayOneShot(jumpSound);
+        }
+    }
+
+    // Zıplama ses seviyesini değiştirmek için public metot
+    public void SetJumpSoundVolume(float volume)
+    {
+        jumpVolume = Mathf.Clamp01(volume); // 0-1 arasında sınırlandır
+        if (audioSource != null)
+        {
+            audioSource.volume = jumpVolume;
         }
     }
 

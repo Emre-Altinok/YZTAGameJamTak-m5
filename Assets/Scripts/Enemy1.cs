@@ -19,6 +19,15 @@ public class Enemy1 : MonoBehaviour
     public float laserDuration = 1.5f; // Lazerin aktif kalma süresi
     public int laserDamage = 2; // Lazerin verdiði hasar
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip laserSound; // Lazer sesi
+    [SerializeField] private AudioClip deathSound; // Ölüm sesi
+    [Range(0f, 1f)]
+    [SerializeField] private float laserVolume = 0.7f; // Lazer sesi seviyesi
+    [Range(0f, 1f)]
+    [SerializeField] private float deathVolume = 0.8f; // Ölüm sesi seviyesi
+    private AudioSource audioSource; // Ses kaynaðý
+
     // Animasyon kontrolü
     private Animator animator;
     private bool isAttacking = false;
@@ -28,6 +37,13 @@ public class Enemy1 : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
+
+        // AudioSource bileþenini al veya ekle
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
 
         // Baþlangýçta lazeri deaktif et
         if (laserObject != null)
@@ -99,6 +115,17 @@ public class Enemy1 : MonoBehaviour
                 laserScript.damage = laserDamage;
             }
 
+            // Lazer sesini çal
+            if (laserSound != null && audioSource != null)
+            {
+                audioSource.Stop();
+                audioSource.clip = laserSound;
+                audioSource.volume = laserVolume;
+                audioSource.loop = false;
+                audioSource.Play();
+                Debug.Log("Lazer sesi çalýnýyor!");
+            }
+
             laserObject.SetActive(true);
             StartCoroutine(DeactivateLaser());
         }
@@ -130,6 +157,17 @@ public class Enemy1 : MonoBehaviour
 
     private void Die()
     {
+        // Ölüm sesini çal
+        if (deathSound != null && audioSource != null)
+        {
+            audioSource.Stop();
+            audioSource.clip = deathSound;
+            audioSource.volume = deathVolume;
+            audioSource.loop = false;
+            audioSource.Play();
+            Debug.Log("Ölüm sesi çalýnýyor!");
+        }
+
         // Ölüm animasyonunu oynat
         animator.SetTrigger("Die");
 
@@ -173,6 +211,17 @@ public class Enemy1 : MonoBehaviour
             // Mermiyi yok et
             Destroy(other.gameObject);
         }
+    }
+
+    // Lazer ve ölüm sesi seviyelerini ayarlamak için public metodlar
+    public void SetLaserSoundVolume(float volume)
+    {
+        laserVolume = Mathf.Clamp01(volume); // 0-1 arasýnda sýnýrla
+    }
+
+    public void SetDeathSoundVolume(float volume)
+    {
+        deathVolume = Mathf.Clamp01(volume); // 0-1 arasýnda sýnýrla
     }
 }
 

@@ -873,6 +873,79 @@ RectTransform:
   m_AnchoredPosition: {x: -0.0041199, y: -0.00074768}
   m_SizeDelta: {x: 1920.6, y: 1079.7}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &1091883719
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 653242578217689543, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_Name
+      value: Portal
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544402027519215149, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_Size.x
+      value: 0.36683196
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544402027519215149, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.008408114
+      objectReference: {fileID: 0}
+    - target: {fileID: 4114571457523971917, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243971068640835329, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243971068640835329, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243971068640835329, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243971068640835329, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243971068640835329, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243971068640835329, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243971068640835329, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243971068640835329, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243971068640835329, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5243971068640835329, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6693590000079854353, guid: 358584da176b9414cb982eca770c93b3, type: 3}
+      propertyPath: portalSound
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 358584da176b9414cb982eca770c93b3, type: 3}
 --- !u!1 &1094128166
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,7 +1007,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: bc76c8045180dd94895e2000db0effe7, type: 3}
   m_Resource: {fileID: 8300000, guid: bc76c8045180dd94895e2000db0effe7, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -104668,6 +104741,10 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6785210253820351444, guid: 67ea76d37a6b6ec4e8e751957a3a9bfe, type: 3}
+      propertyPath: walkingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: dc88e174b63c7fb4888a9c6c9bb82c58, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -104689,3 +104766,4 @@ SceneRoots:
   - {fileID: 367192}
   - {fileID: 1237767245}
   - {fileID: 1861190896}
+  - {fileID: 1091883719}

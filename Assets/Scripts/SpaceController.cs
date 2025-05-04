@@ -1,8 +1,9 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 public class SpaceController : MonoBehaviour
 {
-    // Bile�en referanslar�
+    // Bileşen referansları
     private Animator animator;
     private Rigidbody2D rb;
     private PlayerHP playerHP;
@@ -16,18 +17,22 @@ public class SpaceController : MonoBehaviour
     // Ses parametreleri
     [Header("Audio Settings")]
     [SerializeField] private AudioClip walkingSound; // Yürüme sesi
+    [SerializeField] private AudioClip attackSound; // Ateş/Saldırı sesi
     [Range(0f, 1f)]
     [SerializeField] private float walkVolume = 0.7f; // Yürüme sesi seviyesi
+    [Range(0f, 1f)]
+    [SerializeField] private float attackVolume = 0.7f; // Ateş/Saldırı sesi seviyesi
     [Tooltip("Ses seviyesi: 0 = sessiz, 1 = maksimum")]
-    private AudioSource audioSource; // Ses kaynağı
+    private AudioSource walkAudioSource; // Yürüme sesi kaynağı
+    private AudioSource attackAudioSource; // Saldırı sesi kaynağı
 
     // Silah parametreleri
     [Header("Weapon Settings")]
     [SerializeField] private GameObject bulletPrefab; // Mermi prefab'i
-    [SerializeField] private Transform firePoint; // Ate� edilecek nokta
-    [SerializeField] private float fireRate = 0.25f; // Ate� etme h�z� (saniye ba��na at��)
-    private float lastFireTime = 0f; // Son ate� zaman�
-    private bool isDead = false; // �l�m durumu
+    [SerializeField] private Transform firePoint; // Ateş edilecek nokta
+    [SerializeField] private float fireRate = 0.25f; // Ateş etme hızı (saniye başına atış)
+    private float lastFireTime = 0f; // Son ateş zamanı
+    private bool isDead = false; // Ölüm durumu
 
     // Input System
     [SerializeField] private InputActionAsset inputActions;
@@ -54,21 +59,8 @@ public class SpaceController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerHP = GetComponent<PlayerHP>();
 
-        // AudioSource bileşenini al veya ekle
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
-
-        // Yürüme sesi ayarları
-        if (walkingSound != null)
-        {
-            audioSource.clip = walkingSound;
-            audioSource.loop = true; // Yürüme sesi sürekli çalacak
-            audioSource.playOnAwake = false; // Başlangıçta çalmayacak
-            audioSource.volume = walkVolume; // Ses seviyesini ayarla
-        }
+        // İki ayrı AudioSource bileşenini ayarla
+        SetupAudioSources();
 
         if (animator != null)
         {
@@ -81,19 +73,54 @@ public class SpaceController : MonoBehaviour
 
         if (firePoint == null)
         {
-            // E�er firePoint atanmam��sa, varsay�lan olarak karakter d�n�� y�n�nde olu�tur
+            // Eğer firePoint atanmamışsa, varsayılan olarak karakter dönüş yönünde oluştur
             firePoint = transform;
             Debug.LogWarning("FirePoint not assigned, using player transform instead!");
         }
+    }
+
+    private void SetupAudioSources()
+    {
+        // Mevcut AudioSource'u yürüme için kullan
+        walkAudioSource = GetComponent<AudioSource>();
+        if (walkAudioSource == null)
+        {
+            walkAudioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // Yürüme sesi ayarları
+        if (walkingSound != null)
+        {
+            walkAudioSource.clip = walkingSound;
+            walkAudioSource.loop = true; // Yürüme sesi sürekli çalacak
+            walkAudioSource.playOnAwake = false; // Başlangıçta çalmayacak
+            walkAudioSource.volume = walkVolume; // Ses seviyesini ayarla
+        }
+
+        // Saldırı için yeni bir AudioSource ekle
+        attackAudioSource = gameObject.AddComponent<AudioSource>();
+        attackAudioSource.playOnAwake = false;
+        attackAudioSource.loop = false;
+        attackAudioSource.volume = attackVolume;
     }
 
     // Yürüme sesi seviyesini değiştirmek için public metod
     public void SetWalkSoundVolume(float volume)
     {
         walkVolume = Mathf.Clamp01(volume); // 0-1 arasında sınırla
-        if (audioSource != null)
+        if (walkAudioSource != null)
         {
-            audioSource.volume = walkVolume;
+            walkAudioSource.volume = walkVolume;
+        }
+    }
+
+    // Ateş/Saldırı sesi seviyesini değiştirmek için public metod
+    public void SetAttackSoundVolume(float volume)
+    {
+        attackVolume = Mathf.Clamp01(volume); // 0-1 arasında sınırla
+        if (attackAudioSource != null)
+        {
+            attackAudioSource.volume = attackVolume;
         }
     }
 
@@ -116,7 +143,7 @@ public class SpaceController : MonoBehaviour
 
     private void Update()
     {
-        // Oyuncu �lm��se hareket etmesin
+        // Oyuncu ölmüşse hareket etmesin
         if (!isDead)
         {
             MoveCharacter();
@@ -214,7 +241,7 @@ public class SpaceController : MonoBehaviour
         }
     }
 
-    // D��ar�dan �l�m tetiklenebilmesi i�in public metod
+    // Dışarıdan ölüm tetiklenebilmesi için public metod
     public void SetDeathState()
     {
         isDead = true;
@@ -222,6 +249,10 @@ public class SpaceController : MonoBehaviour
 
         // Hareket etmeyi durdur
         if (rb != null) rb.linearVelocity = Vector2.zero;
+
+        // Sesleri durdur
+        if (walkAudioSource != null && walkAudioSource.isPlaying) walkAudioSource.Stop();
+        if (attackAudioSource != null && attackAudioSource.isPlaying) attackAudioSource.Stop();
     }
 
     #endregion
@@ -255,22 +286,21 @@ public class SpaceController : MonoBehaviour
             transform.Translate(new Vector2(horizontal * moveSpeed * Time.deltaTime, 0));
             transform.localScale = new Vector3(horizontal > 0 ? 1 : -1, 1, 1);
 
-            // Yürüme sesini çal
-            if (!audioSource.isPlaying && isGrounded)
+            // Yürüme sesini çal (eğer çalmıyorsa ve yerdeyse)
+            if (!walkAudioSource.isPlaying && isGrounded)
             {
-                audioSource.Play();
+                walkAudioSource.Play();
             }
         }
         else
         {
             // Karakter duruyor
-            if (audioSource.isPlaying)
+            if (walkAudioSource.isPlaying)
             {
-                audioSource.Stop();
+                walkAudioSource.Stop();
             }
         }
     }
-
 
     private void Jump()
     {
@@ -282,34 +312,41 @@ public class SpaceController : MonoBehaviour
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
         // Zıplarken yürüme sesini durdur
-        if (audioSource.isPlaying)
+        if (walkAudioSource.isPlaying)
         {
-            audioSource.Stop();
+            walkAudioSource.Stop();
         }
     }
 
-    // Silah ate�leme metodu
+    // Silah ateşleme metodu
     private void FireBullet()
     {
-        // Ate� h�z� kontrol�
+        // Ateş hızı kontrolü
         if (Time.time < lastFireTime + (1f / fireRate)) return;
 
         lastFireTime = Time.time;
 
-        // Ate� animasyonunu tetikle
+        // Ateş animasyonunu tetikle
         if (animator != null) animator.SetTrigger(ANIM_ATTACK);
 
-        // Mermi prefab kontrol�
+        // Ateş sesini çal (ayrı AudioSource kullanarak)
+        if (attackSound != null && attackAudioSource != null)
+        {
+            attackAudioSource.clip = attackSound;
+            attackAudioSource.Play();
+        }
+
+        // Mermi prefab kontrolü
         if (bulletPrefab == null)
         {
             Debug.LogError("Bullet prefab is not assigned!");
             return;
         }
 
-        // Karakterin bakt��� y�ne g�re ate� etme
+        // Karakterin baktığı yöne göre ateş etme
         Vector2 direction = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 
-        // Mermiyi olu�tur
+        // Mermiyi oluştur
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         Bullet bulletComponent = bullet.GetComponent<Bullet>();
 
@@ -319,7 +356,7 @@ public class SpaceController : MonoBehaviour
         }
         else
         {
-            // E�er Bullet componenti yoksa, varsay�lan hareket ile ilerlet
+            // Eğer Bullet componenti yoksa, varsayılan hareket ile ilerlet
             Rigidbody2D bulletRb = bullet.GetComponent<Rigidbody2D>();
             if (bulletRb != null)
             {
@@ -349,15 +386,14 @@ public class SpaceController : MonoBehaviour
             if (animator != null) animator.SetBool(ANIM_IS_GROUNDED, false);
 
             // Zeminle temas kesildiğinde yürüme sesini durdur
-            if (audioSource.isPlaying)
+            if (walkAudioSource.isPlaying)
             {
-                audioSource.Stop();
+                walkAudioSource.Stop();
             }
-
         }
     }
 
-    // Hasar alma metodu - PlayerHP taraf�ndan �a�r�labilir
+    // Hasar alma metodu - PlayerHP tarafından çağrılabilir
     public void OnDamageReceived()
     {
         if (animator != null && !isDead)
