@@ -13,6 +13,14 @@ public class SpaceController : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
     private bool isGrounded; // Zeminle temas durumu
 
+    // Ses parametreleri
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip walkingSound; // Yürüme sesi
+    [Range(0f, 1f)]
+    [SerializeField] private float walkVolume = 0.7f; // Yürüme sesi seviyesi
+    [Tooltip("Ses seviyesi: 0 = sessiz, 1 = maksimum")]
+    private AudioSource audioSource; // Ses kaynağı
+
     // Silah parametreleri
     [Header("Weapon Settings")]
     [SerializeField] private GameObject bulletPrefab; // Mermi prefab'i
@@ -46,6 +54,22 @@ public class SpaceController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerHP = GetComponent<PlayerHP>();
 
+        // AudioSource bileşenini al veya ekle
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // Yürüme sesi ayarları
+        if (walkingSound != null)
+        {
+            audioSource.clip = walkingSound;
+            audioSource.loop = true; // Yürüme sesi sürekli çalacak
+            audioSource.playOnAwake = false; // Başlangıçta çalmayacak
+            audioSource.volume = walkVolume; // Ses seviyesini ayarla
+        }
+
         if (animator != null)
         {
             ResetAnimatorParameters();
@@ -60,6 +84,16 @@ public class SpaceController : MonoBehaviour
             // E�er firePoint atanmam��sa, varsay�lan olarak karakter d�n�� y�n�nde olu�tur
             firePoint = transform;
             Debug.LogWarning("FirePoint not assigned, using player transform instead!");
+        }
+    }
+
+    // Yürüme sesi seviyesini değiştirmek için public metod
+    public void SetWalkSoundVolume(float volume)
+    {
+        walkVolume = Mathf.Clamp01(volume); // 0-1 arasında sınırla
+        if (audioSource != null)
+        {
+            audioSource.volume = walkVolume;
         }
     }
 
@@ -217,10 +251,26 @@ public class SpaceController : MonoBehaviour
 
         if (horizontal != 0)
         {
+            // Karakter hareket ediyor
             transform.Translate(new Vector2(horizontal * moveSpeed * Time.deltaTime, 0));
             transform.localScale = new Vector3(horizontal > 0 ? 1 : -1, 1, 1);
+
+            // Yürüme sesini çal
+            if (!audioSource.isPlaying && isGrounded)
+            {
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            // Karakter duruyor
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
         }
     }
+
 
     private void Jump()
     {
@@ -230,6 +280,12 @@ public class SpaceController : MonoBehaviour
         animator.SetTrigger(ANIM_JUMP);
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+        // Zıplarken yürüme sesini durdur
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
     }
 
     // Silah ate�leme metodu
@@ -291,6 +347,13 @@ public class SpaceController : MonoBehaviour
         {
             isGrounded = false;
             if (animator != null) animator.SetBool(ANIM_IS_GROUNDED, false);
+
+            // Zeminle temas kesildiğinde yürüme sesini durdur
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+
         }
     }
 

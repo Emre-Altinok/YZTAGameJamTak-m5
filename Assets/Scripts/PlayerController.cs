@@ -22,6 +22,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionAsset inputActions;
     private InputAction moveAction, jumpAction, attackAction, deathAction;
 
+    // Ses parametreleri
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip walkingSound; // Yürüme sesi
+    private AudioSource audioSource; // Ses kaynağı
+
     // Animasyon parametreleri sabitleri
     private const string ANIM_IS_GROUNDED = "isGrounded";
     private const string ANIM_SPEED = "Speed";
@@ -45,6 +50,22 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         swordHitbox = GetComponentInChildren<SwordHitbox>(); // SwordHitbox referansını al
+
+
+        // AudioSource bileşenini al veya ekle
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // Yürüme sesi ayarları
+        if (walkingSound != null)
+        {
+            audioSource.clip = walkingSound;
+            audioSource.loop = true; // Yürüme sesi sürekli çalacak
+            audioSource.playOnAwake = false; // Başlangıçta çalmayacak
+        }
 
         if (animator != null)
         {
@@ -224,8 +245,23 @@ public class PlayerController : MonoBehaviour
 
         if (horizontal != 0)
         {
+            // Karakter hareket ediyor
             transform.Translate(new Vector2(horizontal * moveSpeed * Time.deltaTime, 0));
             transform.localScale = new Vector3(horizontal > 0 ? 1 : -1, 1, 1);
+
+            // Yürüme sesini çal
+            if (!audioSource.isPlaying && isGrounded)
+            {
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            // Karakter duruyor
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
         }
     }
 
@@ -237,6 +273,11 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger(ANIM_JUMP);
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0); // linearVelocity yerine velocity kullan
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        // Zıplarken yürüme sesini durdur
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
     }
 
     #endregion
@@ -273,6 +314,12 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = false;
             if (animator != null) animator.SetBool(ANIM_IS_GROUNDED, false);
+
+            // Zeminle temas kesildiğinde yürüme sesini durdur
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
         }
     }
 

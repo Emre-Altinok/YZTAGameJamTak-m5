@@ -14278,6 +14278,14 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 6225585075310486089, guid: ab53ca7bd3ccced4ba2c5285b844426b, type: 3}
+      propertyPath: walkVolume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6225585075310486089, guid: ab53ca7bd3ccced4ba2c5285b844426b, type: 3}
+      propertyPath: walkingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 225dc8926d4635944b63f9dfdc0e8c97, type: 3}
     - target: {fileID: 7964822592041155473, guid: ab53ca7bd3ccced4ba2c5285b844426b, type: 3}
       propertyPath: maxHealth
       value: 6
