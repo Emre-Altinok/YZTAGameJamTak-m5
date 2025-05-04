@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     private SwordHitbox swordHitbox; // SwordHitbox referansı
-    private bool isDead = false; // Ölüm durumu
+    private bool isDead = false; // Ölüm durumu (script içi kontrol için)
 
     // Hareket parametreleri
     [Header("Movement Settings")]
@@ -25,12 +25,20 @@ public class PlayerController : MonoBehaviour
     // Ses parametreleri
     [Header("Audio Settings")]
     [SerializeField] private AudioClip walkingSound; // Yürüme sesi
-    private AudioSource audioSource; // Ses kaynağı
+    [SerializeField] private AudioClip attackSound; // Saldırı sesi
+    [SerializeField] private AudioClip hitSound; // Hasar alma sesi
+    [SerializeField] private AudioClip deathSound; // Ölüm sesi
+    [Range(0f, 1f)][SerializeField] private float walkVolume = 0.5f;
+    [Range(0f, 1f)][SerializeField] private float attackVolume = 0.7f;
+    [Range(0f, 1f)][SerializeField] private float hitVolume = 0.6f;
+    [Range(0f, 1f)][SerializeField] private float deathVolume = 0.8f;
+    private AudioSource walkAudioSource; // Yürüme sesi kaynağı
+    private AudioSource effectsAudioSource; // Efekt sesleri kaynağı (saldırı, hasar, ölüm)
 
     // Animasyon parametreleri sabitleri
     private const string ANIM_IS_GROUNDED = "isGrounded";
     private const string ANIM_SPEED = "Speed";
-    private const string ANIM_IS_DEAD = "isDead";
+    private const string ANIM_DEATH = "Death"; // Bool -> Trigger olarak değiştirildi
     private const string ANIM_JUMP = "Jump";
     private const string ANIM_ATTACK = "Attack";
     private const string ANIM_HIT = "Hit";
@@ -50,22 +58,16 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         swordHitbox = GetComponentInChildren<SwordHitbox>(); // SwordHitbox referansını al
-
-
-        // AudioSource bileşenini al veya ekle
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
+        if (swordHitbox == null)
         {
-            audioSource = gameObject.AddComponent<AudioSource>();
+            Debug.LogError("PlayerController: SwordHitbox bulunamadı! Hiyerarşiyi kontrol edin.");
         }
-
-        // Yürüme sesi ayarları
-        if (walkingSound != null)
+        else
         {
-            audioSource.clip = walkingSound;
-            audioSource.loop = true; // Yürüme sesi sürekli çalacak
-            audioSource.playOnAwake = false; // Başlangıçta çalmayacak
+            Debug.Log("PlayerController: SwordHitbox bulundu - " + swordHitbox.gameObject.name);
         }
+        // Ses kaynaklarını ayarla
+        SetupAudioSources();
 
         if (animator != null)
         {
@@ -75,6 +77,30 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("Animator component not found on player!");
         }
+    }
+
+    private void SetupAudioSources()
+    {
+        // Yürüme için AudioSource
+        walkAudioSource = GetComponent<AudioSource>();
+        if (walkAudioSource == null)
+        {
+            walkAudioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // Yürüme sesi ayarları
+        if (walkingSound != null)
+        {
+            walkAudioSource.clip = walkingSound;
+            walkAudioSource.loop = true;
+            walkAudioSource.playOnAwake = false;
+            walkAudioSource.volume = walkVolume;
+        }
+
+        // Efektler için ikinci AudioSource
+        effectsAudioSource = gameObject.AddComponent<AudioSource>();
+        effectsAudioSource.loop = false;
+        effectsAudioSource.playOnAwake = false;
     }
 
     private void OnEnable()
@@ -182,21 +208,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed && !isDead)
         {
-            if (animator != null) animator.SetTrigger(ANIM_ATTACK);
-
-            // Sword hitbox'ı etkinleştir
-            if (swordHitbox != null)
-            {
-                swordHitbox.EnableHitbox();
-
-                // Önceki coroutine varsa durdur
-                if (hitboxDisableCoroutine != null)
-                {
-                    StopCoroutine(hitboxDisableCoroutine);
-                }
-
-                hitboxDisableCoroutine = StartCoroutine(DisableHitboxAfterAnimation());
-            }
+            Attack();
         }
     }
 
@@ -212,7 +224,18 @@ public class PlayerController : MonoBehaviour
     public void SetDeathState()
     {
         isDead = true;
-        if (animator != null) animator.SetBool(ANIM_IS_DEAD, true);
+
+        // Ölüm animasyonunu trigger olarak tetikle
+        if (animator != null) animator.SetTrigger(ANIM_DEATH);
+
+        // Ölüm sesini çal
+        PlaySound(deathSound, deathVolume);
+
+        // Yürüme sesini durdur
+        if (walkAudioSource.isPlaying)
+        {
+            walkAudioSource.Stop();
+        }
 
         // Hareket etmeyi durdur
         if (rb != null) rb.linearVelocity = Vector2.zero;
@@ -228,11 +251,11 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool(ANIM_IS_GROUNDED, true);
         animator.SetFloat(ANIM_SPEED, 0);
-        animator.SetBool(ANIM_IS_DEAD, false);
 
         animator.ResetTrigger(ANIM_JUMP);
         animator.ResetTrigger(ANIM_ATTACK);
         animator.ResetTrigger(ANIM_HIT);
+        animator.ResetTrigger(ANIM_DEATH); // Death artık trigger
     }
 
     private void MoveCharacter()
@@ -250,17 +273,17 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(horizontal > 0 ? 1 : -1, 1, 1);
 
             // Yürüme sesini çal
-            if (!audioSource.isPlaying && isGrounded)
+            if (!walkAudioSource.isPlaying && isGrounded)
             {
-                audioSource.Play();
+                walkAudioSource.Play();
             }
         }
         else
         {
             // Karakter duruyor
-            if (audioSource.isPlaying)
+            if (walkAudioSource.isPlaying)
             {
-                audioSource.Stop();
+                walkAudioSource.Stop();
             }
         }
     }
@@ -271,12 +294,65 @@ public class PlayerController : MonoBehaviour
 
         isGrounded = false;
         animator.SetTrigger(ANIM_JUMP);
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0); // linearVelocity yerine velocity kullan
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0);
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
         // Zıplarken yürüme sesini durdur
-        if (audioSource.isPlaying)
+        if (walkAudioSource.isPlaying)
         {
-            audioSource.Stop();
+            walkAudioSource.Stop();
+        }
+    }
+
+    private void Attack()
+    {
+        if (animator == null || isDead) return;
+        Debug.Log("PlayerController: Saldırı başlatılıyor");
+        // Saldırı animasyonunu tetikle
+        animator.SetTrigger(ANIM_ATTACK);
+
+        // Saldırı sesini çal
+        PlaySound(attackSound, attackVolume);
+
+        // Sword hitbox'ı etkinleştir
+        if (swordHitbox != null)
+        {
+            Debug.Log("PlayerController: SwordHitbox etkinleştiriliyor");
+
+            swordHitbox.EnableHitbox();
+
+            // Önceki coroutine varsa durdur
+            if (hitboxDisableCoroutine != null)
+            {
+                StopCoroutine(hitboxDisableCoroutine);
+            }
+
+            hitboxDisableCoroutine = StartCoroutine(DisableHitboxAfterAnimation());
+        }
+        else
+        {
+            Debug.LogError("PlayerController: SwordHitbox null, bu yüzden etkinleştirilemiyor!");
+        }
+    }
+
+    // Hasar alma animasyonunu ve sesini tetikleyen metod
+    public void TriggerHit()
+    {
+        if (animator != null && !isDead)
+        {
+            animator.SetTrigger(ANIM_HIT);
+            PlaySound(hitSound, hitVolume);
+        }
+    }
+
+    // Ses çalmak için yardımcı metod
+    private void PlaySound(AudioClip clip, float volume)
+    {
+        if (clip != null && effectsAudioSource != null)
+        {
+            effectsAudioSource.clip = clip;
+            effectsAudioSource.volume = volume;
+            effectsAudioSource.Play();
         }
     }
 
@@ -316,11 +392,40 @@ public class PlayerController : MonoBehaviour
             if (animator != null) animator.SetBool(ANIM_IS_GROUNDED, false);
 
             // Zeminle temas kesildiğinde yürüme sesini durdur
-            if (audioSource.isPlaying)
+            if (walkAudioSource.isPlaying)
             {
-                audioSource.Stop();
+                walkAudioSource.Stop();
             }
         }
+    }
+
+    #endregion
+
+    #region Public Ses Metotları
+
+    // Ses seviyelerini ayarlamak için public metotlar
+    public void SetWalkSoundVolume(float volume)
+    {
+        walkVolume = Mathf.Clamp01(volume);
+        if (walkAudioSource != null)
+        {
+            walkAudioSource.volume = walkVolume;
+        }
+    }
+
+    public void SetAttackSoundVolume(float volume)
+    {
+        attackVolume = Mathf.Clamp01(volume);
+    }
+
+    public void SetHitSoundVolume(float volume)
+    {
+        hitVolume = Mathf.Clamp01(volume);
+    }
+
+    public void SetDeathSoundVolume(float volume)
+    {
+        deathVolume = Mathf.Clamp01(volume);
     }
 
     #endregion

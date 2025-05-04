@@ -10,9 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1341425531118978522}
   - component: {fileID: 6056561300478625379}
+  - component: {fileID: 5178202948132906392}
   - component: {fileID: 1446190515785921425}
   - component: {fileID: 2240201976944434507}
   - component: {fileID: 6719808997075436337}
+  - component: {fileID: 5945853598763134309}
   - component: {fileID: 1141953549967933633}
   m_Layer: 0
   m_Name: Knight2
@@ -92,6 +94,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5178202948132906392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3991915771297649767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1e67660524817742b0120554896733a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  moveSpeed: 6
+  followDistance: 8
+  attackDistance: 1.5
+  player: {fileID: 0}
+  attackDamage: 1
+  attackCooldown: 1
+  walkSound: {fileID: 0}
+  attackSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  walkVolume: 0.1
+  attackVolume: 0.1
+  deathVolume: 0.1
+  attackHitboxObject: {fileID: 5518105296037688977}
 --- !u!95 &1446190515785921425
 Animator:
   serializedVersion: 7
@@ -121,19 +149,28 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3991915771297649767}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b62a58c9f68eca41a63060c6ac6c077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
+  maxHealth: 2
+  moveSpeed: 8
+  followDistance: 8
+  attackDistance: 1.5
+  minDistanceToPlayer: 1
   player: {fileID: 0}
-  moveSpeed: 20
-  followDistance: 11
-  attackDistance: 2.5
   attackDamage: 1
   attackCooldown: 1
-  attackHitboxObject: {fileID: 0}
+  attackHitboxObject: {fileID: 5518105296037688977}
+  walkSound: {fileID: 0}
+  attackSound: {fileID: 0}
+  hitSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  walkVolume: 0.1
+  attackVolume: 0.1
+  hitVolume: 0.1
+  deathVolume: 0.1
 --- !u!61 &6719808997075436337
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -180,6 +217,52 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.294899, y: 2.626215}
   m_EdgeRadius: 0
+--- !u!61 &5945853598763134309
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3991915771297649767}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.0000038146973, y: -0.022367477}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 8.4375, y: 8.4375}
+    newSize: {x: 1.35, y: 1.35}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.7268753, y: 2.7111015}
+  m_EdgeRadius: 0
 --- !u!50 &1141953549967933633
 Rigidbody2D:
   serializedVersion: 5
@@ -217,6 +300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5688416381887542145}
   - component: {fileID: 4908294446067056507}
+  - component: {fileID: 6441003917837263381}
   m_Layer: 0
   m_Name: AttackHitbox
   m_TagString: Untagged
@@ -269,7 +353,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -285,3 +369,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.7044868, y: 2.4034367}
   m_EdgeRadius: 0
+--- !u!114 &6441003917837263381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5518105296037688977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77063567f8619d8469dade0d7e02d88e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
+  knockbackForce: 3

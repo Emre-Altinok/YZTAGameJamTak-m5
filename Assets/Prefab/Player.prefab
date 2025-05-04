@@ -92,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  knockbackForce: 5
+  knockbackForce: 20
 --- !u!1 &5583213998571457212
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,6 +223,14 @@ MonoBehaviour:
   moveSpeed: 7
   jumpForce: 5
   inputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  walkingSound: {fileID: 8300000, guid: ba2cf40123c3184428b2ac4baed82cf0, type: 3}
+  attackSound: {fileID: 8300000, guid: 498e7cbf6486b3e49b1495a5bdb5a580, type: 3}
+  hitSound: {fileID: 8300000, guid: 2fdf1179ebfa247438fdbc4d47b398ca, type: 3}
+  deathSound: {fileID: 0}
+  walkVolume: 0.1
+  attackVolume: 0.1
+  hitVolume: 0.1
+  deathVolume: 0.1
 --- !u!61 &6242209660747466758
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -13,30 +13,66 @@ public class PlayerHP : MonoBehaviour
 
     void Start()
     {
-        currentHealth = maxHealth; // Oyuncunun canýný maksimuma ayarla
-        animator = GetComponent<Animator>(); // Animator bileþenini al
-        rb = GetComponent<Rigidbody2D>(); // Rigidbody2D bileþenini al
+        currentHealth = maxHealth;
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+
+        Debug.Log($"PlayerHP: Baþlatýldý - currentHealth: {currentHealth}/{maxHealth}");
+
+        // PlayerController bileþenini kontrol et
+        PlayerController playerController = GetComponent<PlayerController>();
+        if (playerController == null)
+        {
+            Debug.LogError("PlayerHP: Ayný GameObject'te PlayerController bulunamadý!");
+        }
+        else
+        {
+            Debug.Log("PlayerHP: PlayerController baþarýyla bulundu");
+        }
+
+        // HealthBar kontrolü
+        if (healthBarFill == null)
+        {
+            Debug.LogError("PlayerHP: healthBarFill atanmamýþ! Can barý görüntülenemeyecek.");
+        }
     }
 
+    // PlayerHP.cs içindeki TakeDamage metodunda:
     public void TakeDamage(int damage, Vector2 knockbackDirection)
     {
-        currentHealth -= damage; // Hasar al
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth); // Caný 0 ile maxHealth arasýnda sýnýrla
-        Debug.Log("Current Health: " + currentHealth); // Mevcut caný konsola yazdýr
-        UpdateHealthBar(); // Can barýný güncelle
+        Debug.Log($"PlayerHP: TakeDamage çaðrýldý - damage: {damage}, knockbackDir: {knockbackDirection}");
+
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        Debug.Log("Current Health: " + currentHealth);
+        Debug.Log($"PlayerHP: Hasar alýndý. Yeni saðlýk: {currentHealth}/{maxHealth}");
+
+
+        UpdateHealthBar();
 
         // Knockback uygula
         ApplyKnockback(knockbackDirection);
 
-        if (animator != null)
+        // PlayerController'a hasar alma bilgisini ilet
+        PlayerController playerController = GetComponent<PlayerController>();
+        if (playerController != null)
         {
-            animator.SetTrigger("Hit"); // Hit tetikle
-            Debug.Log("Hit tetiklendi");
+            Debug.Log("PlayerHP: PlayerController.TriggerHit çaðrýlýyor");
+
+            playerController.TriggerHit(); // Hasar alma animasyonu ve sesini tetikle
         }
+        else if (animator != null)
+        {
+            Debug.LogError("PlayerHP: PlayerController bulunamadý!");
+
+            animator.SetTrigger("Hit"); // Eski yöntem
+        }
+
         if (currentHealth <= 0)
         {
-            Die(); // Can sýfýrsa öl
-            Debug.Log("Player is dead"); // Ölüm durumunu konsola yazdýr
+            Debug.Log("PlayerHP: Saðlýk sýfýrlandý, ölüm fonksiyonu çaðrýlýyor");
+
+            Die();
         }
     }
 
@@ -59,23 +95,27 @@ public class PlayerHP : MonoBehaviour
         }
     }
 
+    // PlayerHP.cs içindeki Die metodunda:
     private void Die()
     {
-        if (animator != null)
-        {
-            animator.SetTrigger("isDead"); // isDead tetikle
-            StartCoroutine(WaitForDeathAnimation()); // Ölüm animasyonunu bekle
-        }
-        GameManager.Instance.ShowGameOverUI();
-        // Input actions'ý devre dýþý býrak
+        // PlayerController'a ölüm bilgisini ilet
         PlayerController playerController = GetComponent<PlayerController>();
+        if (playerController != null)
+        {
+            playerController.SetDeathState(); // Ölüm animasyonu, sesi ve diðer iþlemler
+        }
+        else if (animator != null)
+        {
+            animator.SetTrigger("Death"); // Eski yöntem - artýk trigger kullanýyoruz
+        }
+
+        // Input actions'ý devre dýþý býrak
         if (playerController != null)
         {
             playerController.DisableInputActions();
         }
-        // GameManager üzerinden GameOver UI'yi aktif et
 
-
+        GameManager.Instance.ShowGameOverUI();
         Debug.Log("Player is dead");
     }
 
