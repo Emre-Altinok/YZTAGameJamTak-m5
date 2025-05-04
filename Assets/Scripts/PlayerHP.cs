@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 public class PlayerHP : MonoBehaviour
@@ -8,7 +9,7 @@ public class PlayerHP : MonoBehaviour
     private Animator animator; // Animator referansý
     private Rigidbody2D rb; // Rigidbody2D referansý
 
-    public float knockbackForce = 5f; // Knockback kuvveti
+    public float knockbackForce = 10f; // Knockback kuvveti
 
     void Start()
     {
@@ -39,13 +40,14 @@ public class PlayerHP : MonoBehaviour
         }
     }
 
+    // PlayerHP.cs dosyasýnda ApplyKnockback metodunu güncellemelisiniz:
     private void ApplyKnockback(Vector2 direction)
     {
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector2.zero; // Mevcut hareketi sýfýrla
-            rb.AddForce(direction * knockbackForce, ForceMode2D.Impulse); // Knockback kuvveti uygula
-        }
+        // Eðer knockback yönü Vector2.zero ise, knockback uygulanmaz
+        if (direction == Vector2.zero || rb == null) return;
+
+        rb.linearVelocity = Vector2.zero; // Mevcut hareketi sýfýrla
+        rb.AddForce(direction * knockbackForce, ForceMode2D.Impulse); // Knockback kuvveti uygula
     }
 
     private void UpdateHealthBar()
@@ -62,8 +64,33 @@ public class PlayerHP : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("isDead"); // isDead tetikle
+            StartCoroutine(WaitForDeathAnimation()); // Ölüm animasyonunu bekle
         }
-        // Ölüm sonrasý iþlemler (örneðin, oyunu durdurma) buraya eklenebilir
+        GameManager.Instance.ShowGameOverUI();
+        // Input actions'ý devre dýþý býrak
+        PlayerController playerController = GetComponent<PlayerController>();
+        if (playerController != null)
+        {
+            playerController.DisableInputActions();
+        }
+        // GameManager üzerinden GameOver UI'yi aktif et
+
+
+        Debug.Log("Player is dead");
+    }
+
+    private IEnumerator WaitForDeathAnimation()
+    {
+        // Ölüm animasyonunun tamamlanmasýný bekle
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        while (!stateInfo.IsName("Death") || stateInfo.normalizedTime < 1.0f)
+        {
+            stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            yield return null;
+        }
+
+        // Animatörü devre dýþý býrak
+        animator.enabled = false;
     }
 
     public int GetCurrentHealth()

@@ -2,15 +2,31 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static GameManager Instance; // Singleton referansý
+    public GameObject gameOverUI; // GameOver UI referansý
+
+    private void Awake()
     {
-        
+        // Singleton kontrolü
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ShowGameOverUI()
     {
-        
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(true); // GameOver UI'yi aktif et
+        }
+        else
+        {
+            Debug.LogError("GameOver UI referansý atanmadý!");
+        }
     }
 }

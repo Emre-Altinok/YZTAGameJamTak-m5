@@ -6,9 +6,11 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    // Bile�en referanslar�
+    // Bileşen referansları
     private Animator animator;
     private Rigidbody2D rb;
+    private SwordHitbox swordHitbox; // SwordHitbox referansı
+    private bool isDead = false; // Ölüm durumu
 
     // Hareket parametreleri
     [Header("Movement Settings")]
@@ -28,6 +30,9 @@ public class PlayerController : MonoBehaviour
     private const string ANIM_ATTACK = "Attack";
     private const string ANIM_HIT = "Hit";
 
+    // Coroutines
+    private Coroutine hitboxDisableCoroutine;
+
     #region Unity Lifecycle Methods
 
     private void Awake()
@@ -39,7 +44,16 @@ public class PlayerController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        ResetAnimatorParameters();
+        swordHitbox = GetComponentInChildren<SwordHitbox>(); // SwordHitbox referansını al
+
+        if (animator != null)
+        {
+            ResetAnimatorParameters();
+        }
+        else
+        {
+            Debug.LogError("Animator component not found on player!");
+        }
     }
 
     private void OnEnable()
@@ -48,21 +62,24 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnDisable()
-{
-    if (inputActions != null)
     {
-        DisableInputActions();
+        if (inputActions != null)
+        {
+            DisableInputActions();
+        }
+        else
+        {
+            Debug.LogWarning("InputActions is null in OnDisable.");
+        }
     }
-    else
-    {
-        Debug.LogWarning("InputActions is null in OnDisable.");
-    }
-}
-
 
     private void Update()
     {
-        MoveCharacter();
+        // Oyuncu ölmüşse hareket etmesin
+        if (!isDead)
+        {
+            MoveCharacter();
+        }
     }
 
     #endregion
@@ -72,10 +89,10 @@ public class PlayerController : MonoBehaviour
     private void SetupInputActions()
     {
         if (inputActions == null)
-    {
-        Debug.LogError("Input Actions asset is not assigned!");
-        return;
-    }
+        {
+            Debug.LogError("Input Actions asset is not assigned!");
+            return;
+        }
         moveAction = inputActions.FindAction("Move");
         jumpAction = inputActions.FindAction("Jump");
         attackAction = inputActions.FindAction("Attack");
@@ -84,59 +101,100 @@ public class PlayerController : MonoBehaviour
 
     private void EnableInputActions()
     {
-        moveAction.Enable();
+        if (inputActions == null) return;
 
-        jumpAction.Enable();
-        jumpAction.performed += OnJump;
+        if (moveAction != null) moveAction.Enable();
 
-        attackAction.Enable();
-        attackAction.performed += OnAttack;
+        if (jumpAction != null)
+        {
+            jumpAction.Enable();
+            jumpAction.performed += OnJump;
+        }
 
-        deathAction.Enable();
-        deathAction.performed += OnDeath;
+        if (attackAction != null)
+        {
+            attackAction.Enable();
+            attackAction.performed += OnAttack;
+        }
+
+        if (deathAction != null)
+        {
+            deathAction.Enable();
+            deathAction.performed += OnDeath;
+        }
     }
 
-    private void DisableInputActions()
+    public void DisableInputActions()
     {
-        moveAction.Disable();
+        if (inputActions == null) return;
 
-        jumpAction.performed -= OnJump;
-        jumpAction.Disable();
+        if (moveAction != null) moveAction.Disable();
 
-        attackAction.performed -= OnAttack;
-        attackAction.Disable();
+        if (jumpAction != null)
+        {
+            jumpAction.performed -= OnJump;
+            jumpAction.Disable();
+        }
 
-        deathAction.performed -= OnDeath;
-        deathAction.Disable();
+        if (attackAction != null)
+        {
+            attackAction.performed -= OnAttack;
+            attackAction.Disable();
+        }
+
+        if (deathAction != null)
+        {
+            deathAction.performed -= OnDeath;
+            deathAction.Disable();
+        }
     }
 
     private void OnJump(InputAction.CallbackContext context)
     {
-        Debug.Log("OnJumping1");
-        Debug.Log("isGrounded: " + isGrounded);
-        Debug.Log("context.performed: " + context.performed);
-        // Sadece yerdeyse z�playabilir
-        if (context.performed && isGrounded)
+        if (context.performed && isGrounded && !isDead)
         {
             Jump();
-            Debug.Log("OnJumping");
         }
     }
 
     private void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !isDead)
         {
-            animator.SetTrigger(ANIM_ATTACK);
+            if (animator != null) animator.SetTrigger(ANIM_ATTACK);
+
+            // Sword hitbox'ı etkinleştir
+            if (swordHitbox != null)
+            {
+                swordHitbox.EnableHitbox();
+
+                // Önceki coroutine varsa durdur
+                if (hitboxDisableCoroutine != null)
+                {
+                    StopCoroutine(hitboxDisableCoroutine);
+                }
+
+                hitboxDisableCoroutine = StartCoroutine(DisableHitboxAfterAnimation());
+            }
         }
     }
 
     private void OnDeath(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !isDead)
         {
-            animator.SetBool(ANIM_IS_DEAD, true);
+            SetDeathState();
         }
+    }
+
+    // Dışarıdan ölüm tetiklenebilmesi için public metod
+    public void SetDeathState()
+    {
+        isDead = true;
+        if (animator != null) animator.SetBool(ANIM_IS_DEAD, true);
+
+        // Hareket etmeyi durdur
+        if (rb != null) rb.linearVelocity = Vector2.zero;
     }
 
     #endregion
@@ -145,6 +203,8 @@ public class PlayerController : MonoBehaviour
 
     private void ResetAnimatorParameters()
     {
+        if (animator == null) return;
+
         animator.SetBool(ANIM_IS_GROUNDED, true);
         animator.SetFloat(ANIM_SPEED, 0);
         animator.SetBool(ANIM_IS_DEAD, false);
@@ -156,12 +216,12 @@ public class PlayerController : MonoBehaviour
 
     private void MoveCharacter()
     {
+        if (moveAction == null || animator == null) return;
+
         float horizontal = moveAction.ReadValue<Vector2>().x;
 
-        // Animat�r parametresini g�ncelle
         animator.SetFloat(ANIM_SPEED, Mathf.Abs(horizontal));
 
-        // Karakteri hareket ettir
         if (horizontal != 0)
         {
             transform.Translate(new Vector2(horizontal * moveSpeed * Time.deltaTime, 0));
@@ -171,12 +231,27 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        // Z�plama i�lemini ger�ekle�tir
-        isGrounded = false; // Z�plad�ktan sonra yere de�miyor olarak ayarla
+        if (rb == null || animator == null || !isGrounded) return;
+
+        isGrounded = false;
         animator.SetTrigger(ANIM_JUMP);
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0); // Mevcut y h�z�n� s�f�rla
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0); // linearVelocity yerine velocity kullan
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        Debug.Log("Jumping");
+    }
+
+    #endregion
+
+    #region Sword Hitbox Control
+
+    private IEnumerator DisableHitboxAfterAnimation()
+    {
+        // Animasyonun tamamlanmasını bekle
+        yield return new WaitForSeconds(0.5f); // Saldırı animasyon süresine göre ayarlayın
+        if (swordHitbox != null)
+        {
+            swordHitbox.DisableHitbox();
+        }
+        hitboxDisableCoroutine = null;
     }
 
     #endregion
@@ -185,21 +260,19 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Zeminle temas kontrol�
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             isGrounded = true;
-            animator.SetBool(ANIM_IS_GROUNDED, true);
+            if (animator != null) animator.SetBool(ANIM_IS_GROUNDED, true);
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        // Zeminden ayr�lma kontrol�
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             isGrounded = false;
-            animator.SetBool(ANIM_IS_GROUNDED, false);
+            if (animator != null) animator.SetBool(ANIM_IS_GROUNDED, false);
         }
     }
 
