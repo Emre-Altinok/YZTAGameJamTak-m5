@@ -76,6 +76,12 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        // Eğer düşman ölüyse hiçbir şey yapma
+        if (animator.GetBool("isDead"))
+        {
+            return;
+        }
+
         // Eğer player null ise bir şey yapma
         if (player == null) return;
 
