@@ -122,10 +122,10 @@ TextureImporter:
       name: Get Hit_0
       rect:
         serializedVersion: 2
-        x: 47
-        y: 48
-        width: 32
-        height: 34
+        x: 0
+        y: 0
+        width: 135
+        height: 135
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,10 +144,10 @@ TextureImporter:
       name: Get Hit_1
       rect:
         serializedVersion: 2
-        x: 185
-        y: 48
-        width: 29
-        height: 36
+        x: 135
+        y: 0
+        width: 135
+        height: 135
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,10 +166,10 @@ TextureImporter:
       name: Get Hit_2
       rect:
         serializedVersion: 2
-        x: 322
-        y: 48
-        width: 29
-        height: 38
+        x: 270
+        y: 0
+        width: 135
+        height: 135
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 3ce8bb61d65720d43a3816a88d8124b4
     internalID: 0
     vertices: []
     indices: 
@@ -196,7 +196,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":1.0},"gridSpriteSize":{"x":135.0,"y":135.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       Get Hit_0: 4059951838069092975
       Get Hit_1: 4205832349090345166
