@@ -1,139 +1,194 @@
+using System.Collections;
 using UnityEngine;
 
 public class KnightEnemy : MonoBehaviour
 {
-    // Sa�l�k Parametreleri
-    [SerializeField] private int health = 100;
+    [Header("Health Settings")]
+    public int maxHealth = 100;
+    private int currentHealth;
 
-    // Hareket Parametreleri
-    [SerializeField] private float moveSpeed = 3f;
-    [SerializeField] private float detectionRange = 10f;
-    [SerializeField] private float attackRange = 2f;
-    [SerializeField] private float minDistanceToKeep = 1.5f;
-    [SerializeField] private float attackCooldown = 2f;
-    [SerializeField] private int attackDamage = 10;
+    [Header("Movement Settings")]
+    public float moveSpeed = 3f;
+    public float followDistance = 10f; // Takip mesafesi
+    public float attackDistance = 2f; // Saldırı mesafesi
+    public float minDistanceToKeep = 1.5f; // Korunacak minimum mesafe
+    public Transform player; // Oyuncu referansı
 
-    // Bile�enler
-    private Animator animator;
-    private Rigidbody2D rb;
-    private Transform playerTransform;
-    private GameObject swordHitbox;
+    [Header("Attack Settings")]
+    public int attackDamage = 10;
+    public float attackCooldown = 2f; // Saldırı bekleme süresi
+    private float lastAttackTime = 0f;
 
-    // Durum de�i�kenleri
-    private bool canAttack = true;
-    private float lastAttackTime;
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip walkSound; // Yürüme sesi
+    [SerializeField] private AudioClip attackSound; // Saldırı sesi
+    [SerializeField] private AudioClip hurtSound; // Hasar alma sesi
+    [SerializeField] private AudioClip deathSound; // Ölüm sesi
+    [Range(0f, 1f)]
+    [SerializeField] private float walkVolume = 0.5f;
+    [Range(0f, 1f)]
+    [SerializeField] private float attackVolume = 0.7f;
+    [Range(0f, 1f)]
+    [SerializeField] private float hurtVolume = 0.6f;
+    [Range(0f, 1f)]
+    [SerializeField] private float deathVolume = 0.8f;
+    private AudioSource audioSource;
+
+    [Header("Attack Hitbox")]
+    public GameObject attackHitboxObject; // Saldırı hitbox objesi
+    private Collider2D attackCollider; // Saldırı hitbox'ı
+
+    // Durum Değişkenleri
+    private bool isFollowing = false;
+    private bool isAttacking = false;
     private bool isDead = false;
     private bool isFacingRight = true;
 
-    private void Awake()
+    // Bileşenler
+    private Animator animator;
+    private Rigidbody2D rb;
+    private SpriteRenderer spriteRenderer;
+    private Collider2D[] colliders;
+
+    void Start()
     {
+        // Bileşenleri al
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        colliders = GetComponents<Collider2D>();
 
-        // Sword Hitbox'� bul
-        swordHitbox = transform.Find("SwordHitbox")?.gameObject;
-        if (swordHitbox != null)
+        // AudioSource bileşenini al veya ekle
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
         {
-            swordHitbox.SetActive(false);
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        // Başlangıç değerleri
+        currentHealth = maxHealth;
+        SetupAttackHitbox();
+
+        // Eğer player referansı atanmamışsa, Player tag'ine sahip objeyi bul
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+            }
         }
     }
 
-    private void Start()
+    void SetupAttackHitbox()
     {
-        // Oyuncuyu bul
-        playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
-        if (playerTransform == null)
+        // Önce Inspector'dan atama yapılmış mı kontrol et
+        if (attackHitboxObject != null)
         {
-            Debug.LogError("KnightEnemy: Player with tag 'Player' not found!");
+            attackCollider = attackHitboxObject.GetComponent<Collider2D>();
+        }
+        else
+        {
+            // Transformdan bul
+            Transform attackHitboxTransform = transform.Find("SwordHitbox");
+            if (attackHitboxTransform != null)
+            {
+                attackHitboxObject = attackHitboxTransform.gameObject;
+                attackCollider = attackHitboxObject.GetComponent<Collider2D>();
+            }
+        }
+
+        // Son kontrol ve hazırlık
+        if (attackCollider != null)
+        {
+            // Saldırı hitbox'ını hazırla - trigger olduğundan emin ol
+            attackCollider.isTrigger = true;
+            attackCollider.enabled = false;
+            Debug.Log("Attack hitbox setup complete: " + attackCollider.name);
+        }
+        else
+        {
+            Debug.LogWarning("AttackHitbox bulunamadı! Düşmanın saldırı collider'ı çalışmayacak.");
         }
     }
 
-    private void Update()
+    void Update()
     {
-        if (isDead || playerTransform == null) return;
+        // Eğer düşman ölmüşse veya oyuncu yoksa hiçbir şey yapma
+        if (isDead || player == null) return;
 
-        // Oyuncuya olan mesafe
-        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        // Oyuncuya olan mesafeyi hesapla
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        // Oyuncu alg�lama menzilinde mi?
-        if (distanceToPlayer <= detectionRange)
+        // Oyuncu ölmüş mü kontrol et
+        PlayerHP playerHP = player.GetComponent<PlayerHP>();
+        if (playerHP != null && playerHP.GetCurrentHealth() <= 0)
         {
-            // Y�z�n oyuncuya do�ru
+            StopMovement();
+            return;
+        }
+
+        // Takip ve saldırı mantığı
+        if (distanceToPlayer <= followDistance)
+        {
+            // Yüzün oyuncuya doğru
             FacePlayer();
 
-            // Oyuncu sald�r� menzilinde mi?
-            if (distanceToPlayer <= attackRange && canAttack)
+            if (distanceToPlayer > attackDistance && distanceToPlayer > minDistanceToKeep)
             {
-                // Sald�r
-                Attack();
-            }
-            else if (distanceToPlayer > minDistanceToKeep)
-            {
-                // Oyuncuya do�ru hareket et
+                // Oyuncuya doğru hareket et
+                isFollowing = true;
                 MoveTowardsPlayer();
             }
             else if (distanceToPlayer < minDistanceToKeep)
             {
-                // Oyuncudan uzakla�
+                // Oyuncudan uzaklaş
+                isFollowing = true;
                 MoveAwayFromPlayer();
+            }
+            else if (distanceToPlayer <= attackDistance && !isAttacking && Time.time > lastAttackTime + attackCooldown)
+            {
+                // Saldır
+                isFollowing = false;
+                StopMovement();
+                AttackPlayer();
             }
             else
             {
-                // Durma pozisyonu
-                StopMoving();
+                // Durma
+                isFollowing = false;
+                StopMovement();
             }
         }
         else
         {
-            // Alg�lama menzili d���nda, dur
-            StopMoving();
+            // Algılama menzili dışında, dur
+            isFollowing = false;
+            StopMovement();
         }
 
-        // Sald�r� cooldown kontrol�
-        if (!canAttack && Time.time > lastAttackTime + attackCooldown)
+        // Animasyon için hız parametresini güncelle
+        if (animator != null && !isDead)
         {
-            canAttack = true;
+            animator.SetFloat("Speed", isFollowing ? moveSpeed : 0f);
         }
     }
 
-    private void MoveTowardsPlayer()
+    void FacePlayer()
     {
-        Vector2 direction = (playerTransform.position - transform.position).normalized;
-        rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
+        if (player == null) return;
 
-        // Hareket animasyonu
-        animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
-    }
-
-    private void MoveAwayFromPlayer()
-    {
-        Vector2 direction = (transform.position - playerTransform.position).normalized;
-        rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
-
-        // Hareket animasyonu
-        animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
-    }
-
-    private void StopMoving()
-    {
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
-
-        // Durma animasyonu
-        animator.SetFloat("Speed", 0);
-    }
-
-    private void FacePlayer()
-    {
-        // Oyuncunun konumuna g�re d�nd�rme
-        bool shouldFaceRight = playerTransform.position.x > transform.position.x;
+        // Oyuncunun konumuna göre döndürme
+        bool shouldFaceRight = player.position.x > transform.position.x;
 
         if (shouldFaceRight != isFacingRight)
         {
+            // Karakter yönünü çevir
             Flip();
         }
     }
 
-    private void Flip()
+    void Flip()
     {
         isFacingRight = !isFacingRight;
         Vector3 scale = transform.localScale;
@@ -141,47 +196,189 @@ public class KnightEnemy : MonoBehaviour
         transform.localScale = scale;
     }
 
-    private void Attack()
+    void MoveTowardsPlayer()
     {
-        // Sald�r� ba�latma
-        animator.SetTrigger("Attack");
-        canAttack = false;
+        if (rb == null || player == null) return;
+
+        // Yürüme sesini çal (eğer çalmıyorsa)
+        if (!audioSource.isPlaying && walkSound != null)
+        {
+            audioSource.clip = walkSound;
+            audioSource.volume = walkVolume;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
+
+        Vector2 direction = (player.position - transform.position).normalized;
+
+        // X yönünde hareketi koru, Y yönünde yerçekimi etkisini muhafaza et
+        rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
+    }
+
+    void MoveAwayFromPlayer()
+    {
+        if (rb == null || player == null) return;
+
+        // Yürüme sesini çal (eğer çalmıyorsa)
+        if (!audioSource.isPlaying && walkSound != null)
+        {
+            audioSource.clip = walkSound;
+            audioSource.volume = walkVolume;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
+
+        Vector2 direction = (transform.position - player.position).normalized;
+
+        // X yönünde hareketi koru, Y yönünde yerçekimi etkisini muhafaza et
+        rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
+    }
+
+    void StopMovement()
+    {
+        if (rb != null)
+        {
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); // Y hızını koru
+        }
+
+        // Yürüme sesini durdur
+        if (audioSource != null && audioSource.isPlaying && audioSource.clip == walkSound)
+        {
+            audioSource.Stop();
+        }
+    }
+
+    void AttackPlayer()
+    {
+        if (animator == null || isDead) return;
+
         lastAttackTime = Time.time;
 
-        // K�l�� hitbox'�n� aktifle�tir
-        if (swordHitbox != null)
-        {
-            swordHitbox.SetActive(true);
-            Invoke(nameof(DisableSwordHitbox), 0.5f);
-        }
-        else
-        {
-            // K�l�� hitbox yoksa, do�rudan oyuncuya hasar ver
-            ApplyDamageToPlayer();
-        }
+        // Saldırı animasyonunu tetikle
+        animator.SetTrigger("Attack");
+
+        // Saldırı durumunu ayarla ve coroutine başlat
+        isAttacking = true;
+        StartCoroutine(HandleAttackSequence());
     }
 
-    private void DisableSwordHitbox()
+    private IEnumerator HandleAttackSequence()
     {
-        if (swordHitbox != null)
+        // Saldırı sesi çal
+        if (attackSound != null && audioSource != null && !isDead)
         {
-            swordHitbox.SetActive(false);
+            audioSource.Stop();
+            audioSource.loop = false;
+            audioSource.clip = attackSound;
+            audioSource.volume = attackVolume;
+            audioSource.Play();
         }
+
+        // Ölüm kontrolü
+        if (isDead)
+        {
+            isAttacking = false;
+            yield break; // Coroutine'i hemen sonlandır
+        }
+
+        // Animasyon bilgisi
+        AnimatorStateInfo animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+        // Animasyon başlayana kadar kısa bir bekleme
+        float waitTime = 0;
+        while (!animStateInfo.IsName("Attack") && waitTime < 0.5f && !isDead)
+        {
+            waitTime += Time.deltaTime;
+            animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            yield return null;
+        }
+
+        // Ölüm kontrolü
+        if (isDead)
+        {
+            isAttacking = false;
+            yield break;
+        }
+
+        // Saldırı başlangıcı
+        if (attackCollider != null)
+        {
+            attackCollider.enabled = true;
+        }
+
+        // Animasyonun ortasına kadar bekle ve hasar ver
+        waitTime = 0;
+        while (animStateInfo.IsName("Attack") && animStateInfo.normalizedTime < 0.5f && waitTime < 1f && !isDead)
+        {
+            waitTime += Time.deltaTime;
+            animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            yield return null;
+        }
+
+        // Ölüm kontrolü
+        if (isDead)
+        {
+            // Hitbox'ı devre dışı bırak
+            if (attackCollider != null)
+            {
+                attackCollider.enabled = false;
+            }
+            isAttacking = false;
+            yield break;
+        }
+
+        // Hasar verme anı
+        TryDamagePlayer();
+
+        // Animasyonun %80'ine kadar bekle
+        waitTime = 0;
+        while (animStateInfo.IsName("Attack") && animStateInfo.normalizedTime < 0.8f && waitTime < 1f && !isDead)
+        {
+            waitTime += Time.deltaTime;
+            animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            yield return null;
+        }
+
+        // Hitbox'ı devre dışı bırak
+        if (attackCollider != null)
+        {
+            attackCollider.enabled = false;
+        }
+
+        // Ölüm kontrolü
+        if (isDead)
+        {
+            isAttacking = false;
+            yield break;
+        }
+
+        // Animasyonun tamamlanmasını bekle (zaman aşımı güvenliği ile)
+        waitTime = 0;
+        while (animStateInfo.IsName("Attack") && animStateInfo.normalizedTime < 1.0f && waitTime < 1.5f && !isDead)
+        {
+            waitTime += Time.deltaTime;
+            animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            yield return null;
+        }
+
+        // Saldırı durumunu sıfırla
+        isAttacking = false;
     }
 
-    private void ApplyDamageToPlayer()
+    private void TryDamagePlayer()
     {
-        // Oyuncunun menzilde olup olmad���n� kontrol et
-        if (Vector2.Distance(transform.position, playerTransform.position) <= attackRange)
-        {
-            // Knockback y�n�n� hesapla
-            Vector2 knockbackDirection = (playerTransform.position - transform.position).normalized;
+        if (player == null || isDead) return;
 
-            // Oyuncuya hasar ver
-            PlayerHP playerHP = playerTransform.GetComponent<PlayerHP>();
+        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        if (distanceToPlayer <= attackDistance)
+        {
+            PlayerHP playerHP = player.GetComponent<PlayerHP>();
             if (playerHP != null)
             {
+                // Düşmandan oyuncuya doğru knockback yönü hesapla
+                Vector2 knockbackDirection = (player.position - transform.position).normalized;
                 playerHP.TakeDamage(attackDamage, knockbackDirection);
+                Debug.Log("KnightEnemy attacked the player! Damage: " + attackDamage);
             }
         }
     }
@@ -190,55 +387,136 @@ public class KnightEnemy : MonoBehaviour
     {
         if (isDead) return;
 
-        health -= damage;
+        currentHealth -= damage;
+        Debug.Log("KnightEnemy took " + damage + " damage! Remaining health: " + currentHealth);
 
-        // Hasar animasyonu tetikle
-        animator.SetTrigger("Hurt");
+        // Hasar alma sesi çal
+        if (hurtSound != null && audioSource != null)
+        {
+            audioSource.Stop();
+            audioSource.loop = false;
+            audioSource.clip = hurtSound;
+            audioSource.volume = hurtVolume;
+            audioSource.Play();
+        }
 
-        // E�er can 0 veya alt�na d��erse �l�m animasyonu tetikle
-        if (health <= 0)
+        // Hasar alma animasyonunu tetikle
+        if (animator != null && !isDead)
+        {
+            animator.SetTrigger("Hurt");
+        }
+
+        if (currentHealth <= 0 && !isDead)
         {
             Die();
         }
     }
 
-    private void Die()
+    void Die()
     {
+        // Ölüm durumunu önce ayarla
         isDead = true;
+        Debug.Log("KnightEnemy is dead!");
 
-        // Fizik ve �arp��malar� devre d��� b�rak
-        rb.linearVelocity = Vector2.zero;
-        rb.isKinematic = true;
+        // Tüm aktif Coroutine'leri durdur
+        StopAllCoroutines();
 
-        // Collider'� devre d��� b�rak
-        Collider2D collider = GetComponent<Collider2D>();
-        if (collider != null)
+        // Hareket ve saldırı durumlarını sıfırla
+        isFollowing = false;
+        isAttacking = false;
+
+        // Mevcut sesi durdur
+        if (audioSource != null && audioSource.isPlaying)
         {
-            collider.enabled = false;
+            audioSource.Stop();
         }
 
-        // �l�m animasyonu tetikle
-        animator.SetTrigger("Death");
+        // Ölüm sesini çal
+        if (deathSound != null && audioSource != null)
+        {
+            audioSource.loop = false;
+            audioSource.clip = deathSound;
+            audioSource.volume = deathVolume;
+            audioSource.Play();
+        }
 
-        // D��man� devre d��� b�rak
-        Destroy(gameObject, 1f); // 1 saniye sonra d��man� yok et
+        // Ölüm animasyonunu tetikle
+        if (animator != null)
+        {
+            // Diğer tüm trigger'ları sıfırla
+            animator.ResetTrigger("Attack");
+            animator.ResetTrigger("Hurt");
+            animator.SetTrigger("Death");
+
+            // Durma durumuna ayarla
+            animator.SetFloat("Speed", 0);
+        }
+
+        // Fizik ve çarpışmaları devre dışı bırak
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.simulated = false;
+        }
+
+        if (colliders != null)
+        {
+            foreach (var collider in colliders)
+            {
+                if (collider != null)
+                {
+                    collider.enabled = false;
+                }
+            }
+        }
+
+        // Attack hitbox'ı devre dışı bırak
+        if (attackCollider != null)
+        {
+            attackCollider.enabled = false;
+        }
+
+        // Doğrudan yok etme zamanlaması ayarla (animasyon beklemeden)
+        Destroy(gameObject, 2f);
     }
 
-    // Gizmos ile g�rselle�tirme
+    // KnightController'ın kılıç darbesi için
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (isDead) return;
+
+        // KnightController'ın SwordHitbox'ı ile çarpışma kontrolü
+        if (other.CompareTag("PlayerWeapon"))
+        {
+            // Kılıç bileşeninden hasar değerini almaya çalış
+            KnightSwordHitbox swordHitbox = other.GetComponent<KnightSwordHitbox>();
+            int damageAmount = 10; // Varsayılan hasar
+
+            if (swordHitbox != null)
+            {
+                damageAmount = swordHitbox.damage;
+            }
+
+            // Hasarı uygula
+            TakeDamage(damageAmount);
+        }
+    }
+
+    // Gizmos ile görselleştirme
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        Gizmos.DrawWireSphere(transform.position, followDistance);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, attackDistance);
 
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, minDistanceToKeep);
     }
 }
 
-// SwordHitbox bile�eni, d��man�n k�l�c� i�in
+// SwordHitbox bileşeni, düşmanın kılıcı için
 public class KnightEnemySwordHitbox : MonoBehaviour
 {
     [SerializeField] private int damage = 10;
@@ -251,10 +529,12 @@ public class KnightEnemySwordHitbox : MonoBehaviour
             PlayerHP playerHP = collision.GetComponent<PlayerHP>();
             if (playerHP != null)
             {
-                // Knockback y�n�n� hesapla
+                // Knockback yönünü hesapla
                 Vector2 knockbackDirection = (collision.transform.position - transform.parent.position).normalized;
                 playerHP.TakeDamage(damage, knockbackDirection);
+                Debug.Log("Knight enemy sword hit the player!");
             }
         }
     }
 }
+

@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
     // Bileşen referansları
     private Animator animator;
     private Rigidbody2D rb;
-    private SwordHitbox swordHitbox; // SwordHitbox referansı
     private bool isDead = false; // Ölüm durumu (script içi kontrol için)
 
     // Hareket parametreleri
@@ -57,17 +56,7 @@ public class PlayerController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        swordHitbox = GetComponentInChildren<SwordHitbox>(); // SwordHitbox referansını al
-        if (swordHitbox == null)
-        {
-            Debug.LogError("PlayerController: SwordHitbox bulunamadı! Hiyerarşiyi kontrol edin.");
-        }
-        else
-        {
-            Debug.Log("PlayerController: SwordHitbox bulundu - " + swordHitbox.gameObject.name);
-        }
-        // Ses kaynaklarını ayarla
-        SetupAudioSources();
+
 
         if (animator != null)
         {
@@ -314,25 +303,6 @@ public class PlayerController : MonoBehaviour
         // Saldırı sesini çal
         PlaySound(attackSound, attackVolume);
 
-        // Sword hitbox'ı etkinleştir
-        if (swordHitbox != null)
-        {
-            Debug.Log("PlayerController: SwordHitbox etkinleştiriliyor");
-
-            swordHitbox.EnableHitbox();
-
-            // Önceki coroutine varsa durdur
-            if (hitboxDisableCoroutine != null)
-            {
-                StopCoroutine(hitboxDisableCoroutine);
-            }
-
-            hitboxDisableCoroutine = StartCoroutine(DisableHitboxAfterAnimation());
-        }
-        else
-        {
-            Debug.LogError("PlayerController: SwordHitbox null, bu yüzden etkinleştirilemiyor!");
-        }
     }
 
     // Hasar alma animasyonunu ve sesini tetikleyen metod
@@ -358,20 +328,6 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Sword Hitbox Control
-
-    private IEnumerator DisableHitboxAfterAnimation()
-    {
-        // Animasyonun tamamlanmasını bekle
-        yield return new WaitForSeconds(0.5f); // Saldırı animasyon süresine göre ayarlayın
-        if (swordHitbox != null)
-        {
-            swordHitbox.DisableHitbox();
-        }
-        hitboxDisableCoroutine = null;
-    }
-
-    #endregion
 
     #region Collision Check
 

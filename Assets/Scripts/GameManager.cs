@@ -41,21 +41,21 @@ public class GameManager : MonoBehaviour
         InitializeGame();
     }
 
-    private void Update()
-    {
-        // Eðer oyun henüz baþlamadýysa ve intro müziði varsa
-        if (!gameStarted && introMusic != null)
-        {
-            // Intro müziði bittiyse veya kullanýcý bir tuþa bastýysa
-            if (!introMusic.isPlaying || Input.anyKeyDown)
-            {
-                StartGame();
-            }
+    //private void Update()
+    //{
+    //    // Eðer oyun henüz baþlamadýysa ve intro müziði varsa
+    //    if (!gameStarted && introMusic != null)
+    //    {
+    //        // Intro müziði bittiyse veya kullanýcý bir tuþa bastýysa
+    //        if (!introMusic.isPlaying || Input.anyKeyDown)
+    //        {
+    //            StartGame();
+    //        }
 
-            // Debug için müzik zamaný
-            musicTimer = introMusic.time;
-        }
-    }
+    //        // Debug için müzik zamaný
+    //        musicTimer = introMusic.time;
+    //    }
+    //}
 
     private void OnEnable()
     {

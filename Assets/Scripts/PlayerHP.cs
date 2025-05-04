@@ -5,11 +5,14 @@ public class PlayerHP : MonoBehaviour
 {
     public int maxHealth = 3; // Maksimum can
     private int currentHealth; // Mevcut can
-    public Image healthBarFill; // Can barýnýn doluluk kýsmý
-    private Animator animator; // Animator referansý
-    private Rigidbody2D rb; // Rigidbody2D referansý
+    public Image healthBarFill; // Can barï¿½nï¿½n doluluk kï¿½smï¿½
+    private Animator animator; // Animator referansï¿½
+    private Rigidbody2D rb; // Rigidbody2D referansï¿½
 
-    public float knockbackForce = 10f; // Knockback kuvveti
+    public float knockbackForce = 2f; // Knockback kuvveti
+
+    // KnightController referansï¿½
+    private KnightController knightController;
 
     void Start()
     {
@@ -17,72 +20,80 @@ public class PlayerHP : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
-        Debug.Log($"PlayerHP: Baþlatýldý - currentHealth: {currentHealth}/{maxHealth}");
+        // KnightController referansï¿½nï¿½ al
+        knightController = GetComponent<KnightController>();
 
-        // PlayerController bileþenini kontrol et
+        Debug.Log($"PlayerHP: Baï¿½latï¿½ldï¿½ - currentHealth: {currentHealth}/{maxHealth}");
+
+        // PlayerController bileï¿½enini kontrol et
         PlayerController playerController = GetComponent<PlayerController>();
-        if (playerController == null)
+        if (playerController == null && knightController == null)
         {
-            Debug.LogError("PlayerHP: Ayný GameObject'te PlayerController bulunamadý!");
+            Debug.LogError("PlayerHP: Aynï¿½ GameObject'te Controller bulunamadï¿½!");
         }
         else
         {
-            Debug.Log("PlayerHP: PlayerController baþarýyla bulundu");
+            Debug.Log("PlayerHP: Controller baï¿½arï¿½yla bulundu");
         }
 
-        // HealthBar kontrolü
+        // HealthBar kontrolï¿½
         if (healthBarFill == null)
         {
-            Debug.LogError("PlayerHP: healthBarFill atanmamýþ! Can barý görüntülenemeyecek.");
+            Debug.LogError("PlayerHP: healthBarFill atanmamï¿½ï¿½! Can barï¿½ gï¿½rï¿½ntï¿½lenemeyecek.");
         }
     }
 
-    // PlayerHP.cs içindeki TakeDamage metodunda:
+    // PlayerHP.cs iï¿½indeki TakeDamage metodunda:
     public void TakeDamage(int damage, Vector2 knockbackDirection)
     {
-        Debug.Log($"PlayerHP: TakeDamage çaðrýldý - damage: {damage}, knockbackDir: {knockbackDirection}");
+        Debug.Log($"PlayerHP: TakeDamage ï¿½aï¿½rï¿½ldï¿½ - damage: {damage}, knockbackDir: {knockbackDirection}");
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         Debug.Log("Current Health: " + currentHealth);
-        Debug.Log($"PlayerHP: Hasar alýndý. Yeni saðlýk: {currentHealth}/{maxHealth}");
-
+        Debug.Log($"PlayerHP: Hasar alï¿½ndï¿½. Yeni saï¿½lï¿½k: {currentHealth}/{maxHealth}");
 
         UpdateHealthBar();
 
         // Knockback uygula
         ApplyKnockback(knockbackDirection);
 
-        // PlayerController'a hasar alma bilgisini ilet
-        PlayerController playerController = GetComponent<PlayerController>();
-        if (playerController != null)
+        // Controller tipine gï¿½re hasar alma bilgisini ilet
+        if (knightController != null)
         {
-            Debug.Log("PlayerHP: PlayerController.TriggerHit çaðrýlýyor");
-
-            playerController.TriggerHit(); // Hasar alma animasyonu ve sesini tetikle
+            // KnightController iï¿½in hasar bildirimi
+            knightController.TakeDamage(damage, knockbackDirection);
         }
-        else if (animator != null)
+        else
         {
-            Debug.LogError("PlayerHP: PlayerController bulunamadý!");
-
-            animator.SetTrigger("Hit"); // Eski yöntem
+            // Eski PlayerController iï¿½in hasar bildirimi
+            PlayerController playerController = GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                Debug.Log("PlayerHP: PlayerController.TriggerHit ï¿½aï¿½rï¿½lï¿½yor");
+                playerController.TriggerHit(); // Hasar alma animasyonu ve sesini tetikle
+            }
+            else if (animator != null)
+            {
+                Debug.LogError("PlayerHP: Controller bulunamadï¿½!");
+                animator.SetTrigger("Hit"); // Eski yï¿½ntem
+            }
         }
 
         if (currentHealth <= 0)
         {
-            Debug.Log("PlayerHP: Saðlýk sýfýrlandý, ölüm fonksiyonu çaðrýlýyor");
-
+            Debug.Log("PlayerHP: Saï¿½lï¿½k sï¿½fï¿½rlandï¿½, ï¿½lï¿½m fonksiyonu ï¿½aï¿½rï¿½lï¿½yor");
             Die();
         }
     }
 
-    // PlayerHP.cs dosyasýnda ApplyKnockback metodunu güncellemelisiniz:
+    // PlayerHP.cs dosyasï¿½nda ApplyKnockback metodunu gï¿½ncellemelisiniz:
     private void ApplyKnockback(Vector2 direction)
     {
-        // Eðer knockback yönü Vector2.zero ise, knockback uygulanmaz
+        // Eï¿½er knockback yï¿½nï¿½ Vector2.zero ise, knockback uygulanmaz
         if (direction == Vector2.zero || rb == null) return;
 
-        rb.linearVelocity = Vector2.zero; // Mevcut hareketi sýfýrla
+        rb.linearVelocity = Vector2.zero; // Mevcut hareketi sï¿½fï¿½rla
         rb.AddForce(direction * knockbackForce, ForceMode2D.Impulse); // Knockback kuvveti uygula
     }
 
@@ -90,51 +101,103 @@ public class PlayerHP : MonoBehaviour
     {
         if (healthBarFill != null)
         {
-            healthBarFill.fillAmount = (float)currentHealth / maxHealth; // Doluluk oranýný hesapla
-            Debug.Log("Health bar updated: " + healthBarFill.fillAmount); // Can barý güncellendiðini konsola yazdýr
+            healthBarFill.fillAmount = (float)currentHealth / maxHealth; // Doluluk oranï¿½nï¿½ hesapla
+            Debug.Log("Health bar updated: " + healthBarFill.fillAmount); // Can barï¿½ gï¿½ncellendiï¿½ini konsola yazdï¿½r
         }
     }
 
-    // PlayerHP.cs içindeki Die metodunda:
+    // PlayerHP.cs iï¿½indeki Die metodunda:
     private void Die()
     {
-        // PlayerController'a ölüm bilgisini ilet
-        PlayerController playerController = GetComponent<PlayerController>();
-        if (playerController != null)
+        // Controller tipine gï¿½re ï¿½lï¿½m bildirimi
+        if (knightController != null)
         {
-            playerController.SetDeathState(); // Ölüm animasyonu, sesi ve diðer iþlemler
+            // KnightController iï¿½in ï¿½lï¿½m bildirimi
+            knightController.SetDeathState();
         }
-        else if (animator != null)
+        else
         {
-            animator.SetTrigger("Death"); // Eski yöntem - artýk trigger kullanýyoruz
+            // Eski PlayerController iï¿½in ï¿½lï¿½m bildirimi
+            PlayerController playerController = GetComponent<PlayerController>();
+            if (playerController != null)
+            {
+                playerController.SetDeathState(); // ï¿½lï¿½m animasyonu, sesi ve diï¿½er iï¿½lemler
+            }
+            else if (animator != null)
+            {
+                // Doï¿½rudan Animator'e eriï¿½im (Knight iï¿½in IsDead bool parametresi kullan)
+                if (animator.HasParameter("IsDead"))
+                {
+                    animator.SetBool("IsDead", true);
+                }
+                else if (animator.HasParameter("Death"))
+                {
+                    animator.SetTrigger("Death");
+                }
+            }
+
+            // Input actions'ï¿½ devre dï¿½ï¿½ï¿½ bï¿½rak
+            if (playerController != null)
+            {
+                playerController.DisableInputActions();
+            }
         }
 
-        // Input actions'ý devre dýþý býrak
-        if (playerController != null)
+        // GameOver UI gï¿½ster
+        if (GameManager.Instance != null)
         {
-            playerController.DisableInputActions();
+            GameManager.Instance.ShowGameOverUI();
         }
 
-        GameManager.Instance.ShowGameOverUI();
         Debug.Log("Player is dead");
     }
 
     private IEnumerator WaitForDeathAnimation()
     {
-        // Ölüm animasyonunun tamamlanmasýný bekle
+        // ï¿½lï¿½m animasyonunun tamamlanmasï¿½nï¿½ bekle
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        while (!stateInfo.IsName("Death") || stateInfo.normalizedTime < 1.0f)
+        float timeWaited = 0f;
+        float maxWaitTime = 3f; // Maksimum bekleme sï¿½resi
+
+        while ((!stateInfo.IsName("Death") || stateInfo.normalizedTime < 1.0f) && timeWaited < maxWaitTime)
         {
             stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            timeWaited += Time.deltaTime;
             yield return null;
         }
 
-        // Animatörü devre dýþý býrak
+        // Animatï¿½rï¿½ devre dï¿½ï¿½ï¿½ bï¿½rak
         animator.enabled = false;
     }
 
     public int GetCurrentHealth()
     {
-        return currentHealth; // Mevcut caný döndür
+        return currentHealth; // Mevcut canï¿½ dï¿½ndï¿½r
+    }
+
+    // Can deï¿½erini test amaï¿½lï¿½ ayarlamak iï¿½in
+    public void SetHealth(int health)
+    {
+        currentHealth = Mathf.Clamp(health, 0, maxHealth);
+        UpdateHealthBar();
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+}
+
+// Add this extension method to check if an Animator has a specific parameter.  
+public static class AnimatorExtensions
+{
+    public static bool HasParameter(this Animator animator, string paramName)
+    {
+        foreach (var param in animator.parameters)
+        {
+            if (param.name == paramName)
+                return true;
+        }
+        return false;
     }
 }
