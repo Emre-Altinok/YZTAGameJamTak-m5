@@ -180,12 +180,12 @@ public class Enemy1 : MonoBehaviour
 public class Laser : MonoBehaviour
 {
     public int damage = 2; // Lazerin verdiði hasar
-    private List<GameObject> hitObjects = new List<GameObject>(); // Hasar verilen objeler
+    private HashSet<GameObject> damagedObjects = new HashSet<GameObject>(); // Hasar verilen objeler
 
     private void OnEnable()
     {
-        // Lazer etkinleþtirildiðinde çarpýþma listesini temizle
-        hitObjects.Clear();
+        // Lazer etkinleþtirildiðinde hasar listesini temizle
+        damagedObjects.Clear();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -194,10 +194,10 @@ public class Laser : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Bu objeye daha önce hasar verilmemiþ mi kontrol et
-            if (!hitObjects.Contains(other.gameObject))
+            if (!damagedObjects.Contains(other.gameObject))
             {
-                // Listeye ekle
-                hitObjects.Add(other.gameObject);
+                // Hasar verildi olarak iþaretle
+                damagedObjects.Add(other.gameObject);
 
                 // Player'a hasar ver
                 PlayerHP playerHP = other.GetComponent<PlayerHP>();
