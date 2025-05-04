@@ -29,4 +29,12 @@ public class GameManager : MonoBehaviour
             Debug.LogError("GameOver UI referansý atanmadý!");
         }
     }
+
+    public void Restart()
+    {
+        // Oyunu yeniden baþlat
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+    }
+
+
 }
