@@ -25,7 +25,7 @@ public class PlayerSwitch : MonoBehaviour
         // Eðer CameraFollowManager atanmadýysa bul
         if (cameraManager == null)
         {
-            cameraManager = FindObjectOfType<CameraFollowManager>();
+            cameraManager = FindAnyObjectByType<CameraFollowManager>();
             if (cameraManager == null)
             {
                 Debug.LogError("CameraFollowManager bulunamadý! Lütfen Inspector'dan atayýn.");
