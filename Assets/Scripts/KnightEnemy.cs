@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 public class KnightEnemy : MonoBehaviour
@@ -455,9 +456,14 @@ public class KnightEnemy : MonoBehaviour
         // Fizik ve çarpışmaları devre dışı bırak
         if (rb != null)
         {
+            rb.AddForce(Vector2.down * 10f, ForceMode2D.Impulse); // Aşağı doğru bir kuvvet uygula
+            Thread.Sleep(200); // 0.1 saniye bekle
             rb.linearVelocity = Vector2.zero;
             rb.simulated = false;
         }
+
+
+
 
         if (colliders != null)
         {
@@ -475,7 +481,9 @@ public class KnightEnemy : MonoBehaviour
         {
             attackCollider.enabled = false;
         }
-
+        animator.SetBool("isDead", true);
+        Debug.Log("IsDead parameter set to true");
+        
         // Doğrudan yok etme zamanlaması ayarla (animasyon beklemeden)
         Destroy(gameObject, 2f);
     }

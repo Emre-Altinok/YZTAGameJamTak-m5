@@ -16,6 +16,6 @@ public class ScoreManager : MonoBehaviour
     // Skoru UI'da güncelleme fonksiyonu
     private void UpdateScoreDisplay()
     {
-        scoreText.text = "Score: " + score.ToString("F2");  // Skoru iki ondalıklı sayı formatında göster
+        scoreText.text = "Score: " + score.ToString();  // Skoru iki ondalıklı sayı formatında göster
     }
 }

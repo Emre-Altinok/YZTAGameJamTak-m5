@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     public float fadeOutDuration = 2f; // Müzik geçiþ süresi
 
     private bool gameStarted = false;
-    private float musicTimer = 0f;
     private float originalTimeScale;
 
     private void Awake()

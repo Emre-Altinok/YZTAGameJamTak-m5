@@ -6,6 +6,7 @@ public class Gold : MonoBehaviour
     public float goldValue = 10f;     // Altının verdiği değer
     public AudioClip collectSound;   // Toplama sesi
     private AudioSource audioSource; // Ses kaynağı
+    private bool isCollected = false; // Altının toplanıp toplanmadığını kontrol etmek için
 
     private void Start()
     {
@@ -30,24 +31,45 @@ public class Gold : MonoBehaviour
     // 2D oyunlar için doğru metod
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("TRIGGERA GİRDİK");
-        // Eğer çarpışan obje "Player" tag'ine sahipse
-        if (other.CompareTag("Player"))
+        // Eğer çarpışan obje "Player" tag'ine sahipse ve daha önce toplanmadıysa
+        if (other.CompareTag("Player") && !isCollected)
         {
+            Debug.Log("TRIGGERA GİRDİK");
+            isCollected = true; // Altın toplandı olarak işaretle
+
             // Skoru artır
             if (scoreManager != null)
             {
                 scoreManager.ScoreAdd(goldValue);
             }
 
+            // Görsel komponenti devre dışı bırak (altını görünmez yap)
+            SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.enabled = false;
+            }
+
+            // Tüm Collider'ları devre dışı bırak
+            Collider2D[] colliders = GetComponents<Collider2D>();
+            foreach (var collider in colliders)
+            {
+                collider.enabled = false;
+            }
+
             // Ses çal
             if (collectSound != null && audioSource != null)
             {
                 audioSource.PlayOneShot(collectSound);
-            }
 
-            // Altın objesini yok et
-            Destroy(gameObject, collectSound != null ? collectSound.length : 0f);
+                // Ses bittikten sonra objeyi tamamen yok et
+                Destroy(gameObject, collectSound.length);
+            }
+            else
+            {
+                // Ses yoksa hemen yok et
+                Destroy(gameObject);
+            }
 
             // Debug log mesajı: Altın kayboldu
             Debug.Log("Altın kayboldu ve oyuncuya eklendi!");
