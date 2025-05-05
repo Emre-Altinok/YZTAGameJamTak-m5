@@ -456,8 +456,7 @@ public class KnightEnemy : MonoBehaviour
         // Fizik ve çarpışmaları devre dışı bırak
         if (rb != null)
         {
-            rb.AddForce(Vector2.down * 10f, ForceMode2D.Impulse); // Aşağı doğru bir kuvvet uygula
-            Thread.Sleep(200); // 0.1 saniye bekle
+
             rb.linearVelocity = Vector2.zero;
             rb.simulated = false;
         }

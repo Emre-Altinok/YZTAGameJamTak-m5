@@ -112,14 +112,14 @@ MonoBehaviour:
   player: {fileID: 0}
   attackDamage: 1
   attackCooldown: 2
-  walkSound: {fileID: 0}
-  attackSound: {fileID: 0}
+  walkSound: {fileID: 8300000, guid: ba2cf40123c3184428b2ac4baed82cf0, type: 3}
+  attackSound: {fileID: 8300000, guid: 498e7cbf6486b3e49b1495a5bdb5a580, type: 3}
   hurtSound: {fileID: 0}
   deathSound: {fileID: 0}
-  walkVolume: 0.5
-  attackVolume: 0.7
-  hurtVolume: 0.6
-  deathVolume: 0.8
+  walkVolume: 0.1
+  attackVolume: 0.1
+  hurtVolume: 0.1
+  deathVolume: 0.1
   attackHitboxObject: {fileID: 8947875334022660160}
 --- !u!61 &6269904950007956795
 BoxCollider2D:
