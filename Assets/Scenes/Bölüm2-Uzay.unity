@@ -10571,6 +10571,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 558114364}
+  - component: {fileID: 558114367}
   - component: {fileID: 558114366}
   - component: {fileID: 558114365}
   m_Layer: 5
@@ -10698,6 +10699,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 558114363}
   m_CullTransparentMesh: 1
+--- !u!114 &558114367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558114363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 535fb4e09d52e6b439e6e77dd2f42ccb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 4
+  enableDisable: 0
 --- !u!1 &585798888
 GameObject:
   m_ObjectHideFlags: 0
@@ -11725,10 +11740,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 558114364}
   - {fileID: 1371689937}
   - {fileID: 869074067}
   - {fileID: 1393734639}
-  - {fileID: 558114364}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
