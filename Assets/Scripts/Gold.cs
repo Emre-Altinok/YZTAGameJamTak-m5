@@ -7,7 +7,8 @@ public class Gold : MonoBehaviour
     public AudioClip collectSound;   // Toplama sesi
     private AudioSource audioSource; // Ses kaynağı
     private bool isCollected = false; // Altının toplanıp toplanmadığını kontrol etmek için
-
+    [Range(0f, 1f)]
+    [SerializeField] private float fxSoundVolume = 0.1f;
     private void Start()
     {
         // Eğer ScoreManager referansı atanmadıysa, sahnede arama yap
@@ -60,6 +61,7 @@ public class Gold : MonoBehaviour
             // Ses çal
             if (collectSound != null && audioSource != null)
             {
+                audioSource.volume = fxSoundVolume;
                 audioSource.PlayOneShot(collectSound);
 
                 // Ses bittikten sonra objeyi tamamen yok et

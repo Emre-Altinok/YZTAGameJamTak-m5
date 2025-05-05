@@ -437,6 +437,135 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &849127822
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 849127824}
+  - component: {fileID: 849127823}
+  m_Layer: 0
+  m_Name: Audio Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &849127823
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849127822}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: a922af04299919149820a8bee8a33ee7, type: 3}
+  m_Resource: {fileID: 8300000, guid: a922af04299919149820a8bee8a33ee7, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &849127824
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849127822}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 375.35638, y: 179.0301, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1693379504
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,23 +624,19 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "S\u0131radan biri de\u011Fildi.\n\r\nHer daim g\xFCc\xFCne ve zekas\u0131na
-    g\xFCvenirdi.\r\nEn \xF6nemlisiyse kendinden ba\u015Fka kimseye ihtiya\xE7 duymad\u0131\u011F\u0131na
-    inan\u0131rd\u0131.\r\n\r\nKuzey\u2019in kavrulmu\u015F topraklar\u0131nda, halk\u0131n
-    dertlerine kulak t\u0131kar, zay\u0131flar\u0131 k\xFC\xE7\xFCmser, gurur ve
-    kibrinden bo\u011Fulurdu Cabbar.\r\n\nYine de ald\u0131rmazd\u0131. D\xFCnya
-    onun i\xE7in kazanlar ve kaybedenler olarak ayr\u0131l\u0131rd\u0131.\n\r\nCabbar
-    da kazananlar\u0131n taraf\u0131ndayd\u0131.\r\nAma kader, en \xE7ok kibri s\u0131nar.\r\n\r\nBir
-    g\xFCn, kendi ya\u015Fad\u0131\u011F\u0131 kalenin d\xFC\u015Fmanlar taraf\u0131ndan
-    ele ge\xE7irildi\u011Fini g\xF6rd\xFC.\n\r\nKale, yaln\u0131zca ta\u015Flardan
-    yap\u0131lm\u0131\u015F bir yap\u0131 de\u011Fildi.\nOras\u0131 onun h\xFCk\xFCm
-    alan\u0131, g\xFCvenli\u011Fi, hatta kimli\u011Fiydi.\r\n\rCabbar, kaleyi geri
-    almak i\xE7in yola \xE7\u0131kt\u0131.\n\r\nAma baz\u0131 sava\u015Flar kalelerle
-    de\u011Fil, insan\u0131n i\xE7indeki g\xF6lgelerle verilir...\n\n\n\n\n\n\n\nSonraki
-    b\xF6l\xFCme ge\xE7mek i\xE7in \"Enter\" tu\u015Funa bas\u0131n\u0131z."
+  m_text: "S\u0131radan biri degildi.\r\n\r\nHer daim gucune ve zekasina guvenirdi.\r\nEn
+    onemlisiyse kendinden baska kimseye ihtiyac duymadigina inanirdi.\r\n\r\nKuzey\u2019in
+    kavrulmus topraklarinda, halkin dertlerine kulak tikar, zayiflari kucumser, gurur
+    ve kibrinden bogulurdu Cem.\r\n\r\nYine de aldirmazdi. Dunya onun icin kazanlar
+    ve kaybedenler olarak ayrilirdi.\r\n\r\nCem da kazananlarin tarafindaydi.\r\nAma
+    kader, en cok kibri sinar.\r\n\r\nBir gun, kendi yasadigi kalenin dusmanlar tarafindan
+    ele gecirildigini gordu.\r\n\r\nKale, yalnizca taslardan yapilmis bir yapi degildi.\r\nOrasi
+    onun hukum alani, guvenligi, hatta kimligiydi.\r\n\r\nCem, kaleyi geri almak
+    icin yola cikti.\r\n\r\nAma bazi savaslar kalelerle degil, insanin icindeki golgelerle
+    verilir...\r\n\r\n\r\n\r\n\r\nSonraki bolume gecmek icin \"Enter\" tusuna basiniz."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: e87cbb1e994e0d74699a21e9dc161761, type: 2}
+  m_sharedMaterial: {fileID: -8678393702114104375, guid: e87cbb1e994e0d74699a21e9dc161761, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -573,7 +698,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -587.01764, y: -15.05182, z: -624.64685, w: -2013.1478}
+  m_margin: {x: -619.0542, y: -15.05182, z: -624.64685, w: -2013.1478}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -805,3 +930,4 @@ SceneRoots:
   - {fileID: 732729578}
   - {fileID: 754333902}
   - {fileID: 2089706972}
+  - {fileID: 849127824}
